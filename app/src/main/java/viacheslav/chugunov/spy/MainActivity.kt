@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         val spy = Spy(applicationContext)
         binding.showNotification.setOnClickListener {
-            spy.info("Test Message")
+            spy.info("my txt")
         }
     }
 }
