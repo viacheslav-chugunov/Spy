@@ -1,8 +1,8 @@
-package viacheslav.chugunov.spy.internal
+package viacheslav.chugunov.spy.internal.data
 
 import viacheslav.chugunov.spy.SpyMeta
-import viacheslav.chugunov.spy.internal.room.entity.SpyEventEntity
-import viacheslav.chugunov.spy.internal.room.entity.SpyMetaEntity
+import viacheslav.chugunov.spy.internal.data.room.entity.SpyEventEntity
+import viacheslav.chugunov.spy.internal.data.room.entity.SpyMetaEntity
 
 internal data class SpyEvent(
     private val timestamp: Long,
@@ -29,11 +29,9 @@ internal data class SpyEvent(
             timestamp = event.timestamp,
             message = event.message,
             type = SpyEventType.from(event.type),
-            meta = meta.map {
-                SpyMeta(
-                    key = it.key,
-                    field = it.field
-                )
+            meta = meta
+                .filter { it.eventId == event.id }
+                .map { SpyMeta(key = it.key, field = it.field)
             }
         )
     }

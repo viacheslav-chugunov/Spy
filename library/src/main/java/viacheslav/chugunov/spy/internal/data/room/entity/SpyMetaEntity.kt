@@ -1,4 +1,4 @@
-package viacheslav.chugunov.spy.internal.room.entity
+package viacheslav.chugunov.spy.internal.data.room.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

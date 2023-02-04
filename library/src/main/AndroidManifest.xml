@@ -6,15 +6,10 @@
     <application>
 
         <activity
-            android:name=".internal.SpyActivity"
-            android:exported="true"
+            android:name=".internal.presentation.SpyActivity"
+            android:exported="false"
             android:label="Spy"
             android:theme="@style/Theme.Spy.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
     </application>

@@ -1,12 +1,12 @@
-package viacheslav.chugunov.spy.internal.room
+package viacheslav.chugunov.spy.internal.data.room
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import viacheslav.chugunov.spy.internal.room.dao.SpyEventDao
-import viacheslav.chugunov.spy.internal.room.entity.SpyEventEntity
-import viacheslav.chugunov.spy.internal.room.entity.SpyMetaEntity
+import viacheslav.chugunov.spy.internal.data.room.dao.SpyEventDao
+import viacheslav.chugunov.spy.internal.data.room.entity.SpyEventEntity
+import viacheslav.chugunov.spy.internal.data.room.entity.SpyMetaEntity
 
 @Database(entities = [SpyEventEntity::class, SpyMetaEntity::class], version = 1)
 internal abstract class SpyRoomDatabase : RoomDatabase() {

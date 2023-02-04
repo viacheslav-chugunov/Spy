@@ -1,16 +1,14 @@
 package viacheslav.chugunov.spy
 
 import android.content.Context
-import kotlinx.coroutines.Dispatchers
-import viacheslav.chugunov.spy.internal.EventStorage
-import viacheslav.chugunov.spy.internal.NotificationFactory
-import viacheslav.chugunov.spy.internal.SpyEvent
-import viacheslav.chugunov.spy.internal.SpyEventType
+import viacheslav.chugunov.spy.internal.data.*
+import viacheslav.chugunov.spy.internal.data.EventStorage
+import viacheslav.chugunov.spy.internal.data.SpyEvent
+import viacheslav.chugunov.spy.internal.data.SpyEventType
 
-class Spy(applicationContext: Context) {
-    private val notifications = NotificationFactory(
-        applicationContext, "spy-notifications", "Spy notifications")
-    private val storage = EventStorage(applicationContext, "spy-database", Dispatchers.IO)
+class Spy {
+    private val notifications: NotificationFactory by inject()
+    private val storage: EventStorage by inject()
 
     fun info(message: String, vararg meta: SpyMeta) =
         log(message, SpyEventType.INFO, *meta)
@@ -27,4 +25,11 @@ class Spy(applicationContext: Context) {
         storage.addEvent(event)
     }
 
+    companion object {
+        internal var applicationContext: Context? = null
+
+        fun install(applicationContext: Context) {
+            Spy.applicationContext = applicationContext
+        }
+    }
 }

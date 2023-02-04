@@ -1,6 +1,6 @@
 package viacheslav.chugunov.spy
 
-import viacheslav.chugunov.spy.internal.room.entity.SpyMetaEntity
+import viacheslav.chugunov.spy.internal.data.room.entity.SpyMetaEntity
 
 data class SpyMeta(private val key: String, private val field: String) {
 
