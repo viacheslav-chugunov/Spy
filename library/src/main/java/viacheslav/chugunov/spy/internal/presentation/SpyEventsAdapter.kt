@@ -9,40 +9,75 @@ import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.data.SpyEvent
 
 internal class SpyEventsAdapter(
-    private val events: List<SpyEvent> = emptyList()
+    private var events: List<SpyEvent> = emptyList()
 ) : RecyclerView.Adapter<SpyEventsAdapter.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
-        TODO("Not yet implemented")
+        if(position==0) return ViewType.INFO
+        return if(position==1) ViewType.WARNING
+        else ViewType.ERROR
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-//        R.layout.item_spy_event_info
-//        R.layout.item_spy_event_warning
-//        R.layout.item_spy_event_error
-        TODO("Not yet implemented")
+        when (viewType) {
+            ViewType.INFO -> {
+                return ViewHolder.Info(
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_spy_event_info, parent, false)
+                )
+            }
+            ViewType.WARNING -> {
+                return ViewHolder.Warning(
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_spy_event_warning,parent,false)
+                )
+            }
+            else -> {
+                return ViewHolder.Error(
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_spy_event_error,parent,false)
+                )
+            }
+        }
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return events.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = when(holder) {
-        is ViewHolder.Info -> TODO("Not yet implemented")
-        is ViewHolder.Warning -> TODO("Not yet implemented")
-        is ViewHolder.Error -> TODO("Not yet implemented")
+        is ViewHolder.Info -> {
+            holder.message.text = events[position].toSpyEventEntity().message;
+            holder.date.text = events[position].toSpyEventEntity().timestamp.toString()
+            if(position==itemCount-1) holder.divider.visibility = View.INVISIBLE
+            else holder.divider.visibility=View.VISIBLE
+        }
+        is ViewHolder.Warning -> {
+            holder.message.text = events[position].toSpyEventEntity().message;
+            holder.date.text = events[position].toSpyEventEntity().timestamp.toString()
+            if(position==itemCount-1) holder.divider.visibility = View.INVISIBLE
+            else holder.divider.visibility=View.VISIBLE
+        }
+        is ViewHolder.Error -> {
+            holder.message.text = events[position].toSpyEventEntity().message;
+            holder.date.text = events[position].toSpyEventEntity().timestamp.toString()
+            if(position==itemCount-1) holder.divider.visibility = View.INVISIBLE
+            else holder.divider.visibility=View.VISIBLE
+        }
     }
 
     fun setEvents(events: List<SpyEvent>) {
-        TODO("Not yet implemented")
+        this.events=events
     }
 
-    fun removeEvent(events: SpyEvent) {
-        TODO("Not yet implemented")
+    fun removeEvent(event: SpyEvent) {
+        val newList = mutableListOf<SpyEvent>()
+        events.forEach {if(it!=event) newList.add(it)}
+        events = newList.toList()
     }
 
     fun clearAllEvents() {
-        TODO("Not yet implemented")
+        events = emptyList()
     }
 
     private object ViewType {

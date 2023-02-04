@@ -5,10 +5,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.*
 import viacheslav.chugunov.spy.R
 
 internal class SpyActivity : AppCompatActivity() {
@@ -22,7 +20,7 @@ internal class SpyActivity : AppCompatActivity() {
         Toast.makeText(this, "CREATE", Toast.LENGTH_SHORT).show()
         coroutineScope.launch {
             viewModel.allEventsFlow.collect { events ->
-                // TODO update spy events into adapter
+                TODO()
             }
         }
     }
