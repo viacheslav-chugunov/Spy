@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
             spy.warning("Test warning notification")
         }
         binding.errorNotification.setOnClickListener {
-            spy.error("Test error notification")
+            spy.error("Test error notificatio")
         }
     }
 }
