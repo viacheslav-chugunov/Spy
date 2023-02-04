@@ -13,9 +13,10 @@ internal class SpyEventsAdapter(
 ) : RecyclerView.Adapter<SpyEventsAdapter.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
-        if(position==0) return ViewType.INFO
-        return if(position==1) ViewType.WARNING
-        else ViewType.ERROR
+        if(position==1) return ViewType.INFO
+        if(position==2) return ViewType.WARNING
+        if(position==3) return ViewType.ERROR
+        else return ViewType.INFO
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -45,25 +46,11 @@ internal class SpyEventsAdapter(
         return events.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = when(holder) {
-        is ViewHolder.Info -> {
-            holder.message.text = events[position].toSpyEventEntity().message;
-            holder.date.text = events[position].toSpyEventEntity().timestamp.toString()
-            if(position==itemCount-1) holder.divider.visibility = View.INVISIBLE
-            else holder.divider.visibility=View.VISIBLE
-        }
-        is ViewHolder.Warning -> {
-            holder.message.text = events[position].toSpyEventEntity().message;
-            holder.date.text = events[position].toSpyEventEntity().timestamp.toString()
-            if(position==itemCount-1) holder.divider.visibility = View.INVISIBLE
-            else holder.divider.visibility=View.VISIBLE
-        }
-        is ViewHolder.Error -> {
-            holder.message.text = events[position].toSpyEventEntity().message;
-            holder.date.text = events[position].toSpyEventEntity().timestamp.toString()
-            if(position==itemCount-1) holder.divider.visibility = View.INVISIBLE
-            else holder.divider.visibility=View.VISIBLE
-        }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int){
+        holder.message.text = events[position].toSpyEventEntity().message;
+        holder.date.text = events[position].toSpyEventEntity().timestamp.toString()
+        if(position==itemCount) holder.divider.visibility = View.INVISIBLE
+        else holder.divider.visibility=View.VISIBLE
     }
 
     fun setEvents(events: List<SpyEvent>) {

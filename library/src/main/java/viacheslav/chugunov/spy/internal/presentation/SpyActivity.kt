@@ -24,7 +24,9 @@ internal class SpyActivity : AppCompatActivity() {
         coroutineScope.launch {
             viewModel.allEventsFlow.collect { events ->
                 val recycler = findViewById<RecyclerView>(R.id.recycler)
-                recycler.adapter=SpyEventsAdapter()
+                val adapter = SpyEventsAdapter()
+                adapter.setEvents(events)
+                recycler.adapter=adapter
                 recycler.layoutManager=LinearLayoutManager(applicationContext)
             }
         }
