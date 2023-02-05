@@ -21,13 +21,13 @@ internal class SpyActivity : AppCompatActivity() {
         setContentView(R.layout.activity_spy)
         viewModel = ViewModelProvider(this)[SpyViewModel::class.java]
         Toast.makeText(this, "CREATE", Toast.LENGTH_SHORT).show()
+        val recycler = findViewById<RecyclerView>(R.id.recycler)
+        val adapter = SpyEventsAdapter()
+        recycler.adapter=adapter
+        recycler.layoutManager=LinearLayoutManager(applicationContext)
         coroutineScope.launch {
             viewModel.allEventsFlow.collect { events ->
-                val recycler = findViewById<RecyclerView>(R.id.recycler)
-                val adapter = SpyEventsAdapter()
                 adapter.setEvents(events)
-                recycler.adapter=adapter
-                recycler.layoutManager=LinearLayoutManager(applicationContext)
             }
         }
     }

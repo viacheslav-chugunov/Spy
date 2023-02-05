@@ -7,16 +7,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.data.SpyEvent
+import java.text.SimpleDateFormat
+import java.util.*
 
 internal class SpyEventsAdapter(
-    private var events: List<SpyEvent> = emptyList()
+     events: List<SpyEvent> = emptyList()
 ) : RecyclerView.Adapter<SpyEventsAdapter.ViewHolder>() {
-
+    private val events = events.toMutableList()
     override fun getItemViewType(position: Int): Int {
-        if(position==1) return ViewType.INFO
-        if(position==2) return ViewType.WARNING
-        if(position==3) return ViewType.ERROR
-        else return ViewType.INFO
+        return events[position].getType()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -47,27 +46,31 @@ internal class SpyEventsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int){
-        holder.message.text = events[position].toSpyEventEntity().message;
-        holder.date.text = events[position].toSpyEventEntity().timestamp.toString()
-        if(position==itemCount) holder.divider.visibility = View.INVISIBLE
+        holder.message.text = events[position].toSpyEventEntity().message
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH).format(Date(events[position].toSpyEventEntity().timestamp))
+        holder.date.text=dateFormat
+        if(position==itemCount-1) holder.divider.visibility = View.INVISIBLE
         else holder.divider.visibility=View.VISIBLE
     }
 
-    fun setEvents(events: List<SpyEvent>) {
-        this.events=events
+    fun setEvents(events: List<SpyEvent>){
+        this.events.clear()
+        this.events.addAll(events)
+        notifyDataSetChanged()
     }
 
     fun removeEvent(event: SpyEvent) {
-        val newList = mutableListOf<SpyEvent>()
-        events.forEach {if(it!=event) newList.add(it)}
-        events = newList.toList()
+        val index = this.events.indexOf(event)
+        this.events.remove(event)
+        notifyItemRemoved(index)
     }
 
     fun clearAllEvents() {
-        events = emptyList()
+        events.clear()
+        notifyDataSetChanged()
     }
 
-    private object ViewType {
+    object ViewType {
         const val INFO = 1
         const val WARNING = 2
         const val ERROR = 3

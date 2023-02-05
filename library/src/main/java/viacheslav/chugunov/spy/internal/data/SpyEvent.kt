@@ -3,6 +3,7 @@ package viacheslav.chugunov.spy.internal.data
 import viacheslav.chugunov.spy.SpyMeta
 import viacheslav.chugunov.spy.internal.data.room.entity.SpyEventEntity
 import viacheslav.chugunov.spy.internal.data.room.entity.SpyMetaEntity
+import viacheslav.chugunov.spy.internal.presentation.SpyEventsAdapter
 
 internal data class SpyEvent(
     private val timestamp: Long,
@@ -10,6 +11,14 @@ internal data class SpyEvent(
     private val type: SpyEventType,
     private val meta: List<SpyMeta>
 ) {
+
+    fun getType():Int{
+        return when(type){
+            SpyEventType.INFO -> SpyEventsAdapter.ViewType.INFO
+            SpyEventType.WARNING -> SpyEventsAdapter.ViewType.WARNING
+            SpyEventType.ERROR -> SpyEventsAdapter.ViewType.ERROR
+        }
+    }
 
     fun toSpyEventEntity(): SpyEventEntity =
         SpyEventEntity(timestamp, message, type.name)
