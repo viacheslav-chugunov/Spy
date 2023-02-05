@@ -13,6 +13,7 @@ import java.util.*
 internal class SpyEventsAdapter(
      events: List<SpyEvent> = emptyList()
 ) : RecyclerView.Adapter<SpyEventsAdapter.ViewHolder>() {
+
     private val events = events.toMutableList()
     override fun getItemViewType(position: Int): Int {
         return events[position].getType()
