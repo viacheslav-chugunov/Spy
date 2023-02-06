@@ -1,9 +1,11 @@
 package viacheslav.chugunov.spy.internal.presentation
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.data.SpyEvent
@@ -13,47 +15,29 @@ import java.util.*
 internal class SpyEventsAdapter(
      events: List<SpyEvent> = emptyList()
 ) : RecyclerView.Adapter<SpyEventsAdapter.ViewHolder>() {
-
     private val events = events.toMutableList()
-    override fun getItemViewType(position: Int): Int {
-        return events[position].getType()
-    }
+
+    override fun getItemViewType(position: Int): Int = events[position].spyEventAdapterViewType
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        when (viewType) {
-            ViewType.INFO -> {
-                return ViewHolder.Info(
-                    LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_spy_event_info, parent, false)
-                )
-            }
-            ViewType.WARNING -> {
-                return ViewHolder.Warning(
-                    LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_spy_event_warning,parent,false)
-                )
-            }
-            else -> {
-                return ViewHolder.Error(
-                    LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_spy_event_error,parent,false)
-                )
-            }
+        val layoutRes = when (viewType) {
+            ViewType.INFO -> R.layout.item_spy_event_info
+            ViewType.WARNING -> R.layout.item_spy_event_warning
+            ViewType.ERROR -> R.layout.item_spy_event_error
+            else -> throw IllegalStateException("Provided unexpected viewType=$viewType")
         }
+        val inflater = LayoutInflater.from(parent.context)
+        return ViewHolder(inflater.inflate(layoutRes, parent, false))
     }
 
-    override fun getItemCount(): Int {
-        return events.size
-    }
+    override fun getItemCount(): Int = events.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int){
-        holder.message.text = events[position].toSpyEventEntity().message
-        val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH).format(Date(events[position].toSpyEventEntity().timestamp))
-        holder.date.text=dateFormat
-        if(position==itemCount-1) holder.divider.visibility = View.INVISIBLE
-        else holder.divider.visibility=View.VISIBLE
+        val showDivider = position < itemCount - 1
+        events[position].bindSpyEventViewHolder(holder, showDivider)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setEvents(events: List<SpyEvent>){
         this.events.clear()
         this.events.addAll(events)
@@ -66,6 +50,7 @@ internal class SpyEventsAdapter(
         notifyItemRemoved(index)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun clearAllEvents() {
         events.clear()
         notifyDataSetChanged()
@@ -77,13 +62,9 @@ internal class SpyEventsAdapter(
         const val ERROR = 3
     }
 
-    sealed class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val divider: View = view.findViewById(R.id.divider)
         val date: TextView = view.findViewById(R.id.date)
         val message: TextView = view.findViewById(R.id.message)
-
-        class Info(view: View) : ViewHolder(view)
-        class Warning(view: View) : ViewHolder(view)
-        class Error(view: View) : ViewHolder(view)
     }
 }

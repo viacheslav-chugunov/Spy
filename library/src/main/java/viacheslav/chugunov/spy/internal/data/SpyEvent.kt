@@ -1,9 +1,12 @@
 package viacheslav.chugunov.spy.internal.data
 
+import androidx.core.view.isVisible
 import viacheslav.chugunov.spy.SpyMeta
 import viacheslav.chugunov.spy.internal.data.room.entity.SpyEventEntity
 import viacheslav.chugunov.spy.internal.data.room.entity.SpyMetaEntity
 import viacheslav.chugunov.spy.internal.presentation.SpyEventsAdapter
+import java.text.SimpleDateFormat
+import java.util.*
 
 internal data class SpyEvent(
     private val timestamp: Long,
@@ -12,13 +15,20 @@ internal data class SpyEvent(
     private val meta: List<SpyMeta>
 ) {
 
-    fun getType():Int{
-        return when(type){
+    fun bindSpyEventViewHolder(holder: SpyEventsAdapter.ViewHolder, showDivider: Boolean) {
+        holder.message.text = message
+        val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH)
+        val date = Date(timestamp)
+        holder.date.text = formatter.format(date)
+        holder.divider.isVisible = showDivider
+    }
+
+    val spyEventAdapterViewType: Int
+        get() = when(type) {
             SpyEventType.INFO -> SpyEventsAdapter.ViewType.INFO
             SpyEventType.WARNING -> SpyEventsAdapter.ViewType.WARNING
             SpyEventType.ERROR -> SpyEventsAdapter.ViewType.ERROR
         }
-    }
 
     fun toSpyEventEntity(): SpyEventEntity =
         SpyEventEntity(timestamp, message, type.name)
