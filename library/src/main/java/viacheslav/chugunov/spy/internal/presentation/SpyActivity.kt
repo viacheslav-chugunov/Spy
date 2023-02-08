@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.SpyEventsListFragment
+import viacheslav.chugunov.spy.internal.data.SpyEvent
 import viacheslav.chugunov.spy.internal.data.SpyEventDetailFragment
 
 internal class SpyActivity : AppCompatActivity(), SpyEventsAdapter.Listener{
@@ -16,7 +17,7 @@ internal class SpyActivity : AppCompatActivity(), SpyEventsAdapter.Listener{
         ft.replace(R.id.frag_container, SpyEventsListFragment())
         ft.commit()
     }
-    override fun onItemClick(position: Int) {
+    override fun onItemClick(position: Int, event:SpyEvent) {
         val fragment = SpyEventDetailFragment()
         setFragment(fragment)
     }

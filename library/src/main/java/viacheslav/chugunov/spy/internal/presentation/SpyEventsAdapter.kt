@@ -15,7 +15,7 @@ internal class SpyEventsAdapter(
 ) : RecyclerView.Adapter<SpyEventsAdapter.ViewHolder>() {
     private val events = events.toMutableList()
     interface Listener{
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int, event: SpyEvent)
     }
     override fun getItemViewType(position: Int): Int = events[position].spyEventAdapterViewType
 
@@ -34,7 +34,7 @@ internal class SpyEventsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int){
         holder.itemView.setOnClickListener {
-            listener.onItemClick(position)
+            listener.onItemClick(position, events[position])
         }
         val showDivider = position < itemCount - 1
         events[position].bindSpyEventViewHolder(holder, showDivider)
