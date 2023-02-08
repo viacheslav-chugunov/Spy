@@ -1,4 +1,4 @@
-package viacheslav.chugunov.spy
+package viacheslav.chugunov.spy.internal.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,9 +12,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.Spy.Companion.applicationContext
-import viacheslav.chugunov.spy.internal.presentation.SpyEventsAdapter
-import viacheslav.chugunov.spy.internal.presentation.SpyViewModel
 
 class SpyEventsListFragment : Fragment(){
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main)

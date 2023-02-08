@@ -11,13 +11,7 @@ import viacheslav.chugunov.spy.internal.data.room.entity.SpyMetaEntity
 @Dao
 internal interface SpyEventDao {
 
-    @Query("SELECT * FROM SPY_EVENT")
-    suspend fun getAllEvents(): List<SpyEventEntity>
-
-    @Query("SELECT * FROM SPY_META_ENTITY")
-    suspend fun getAllMeta(): List<SpyMetaEntity>
-
-    @Query("SELECT * FROM SPY_EVENT ORDER BY timestamp DESC")
+    @Query("SELECT * FROM SPY_EVENT ORDER BY TIMESTAMP DESC")
     fun getAllEventsFlow(): Flow<List<SpyEventEntity>>
 
     @Query("SELECT * FROM SPY_META_ENTITY")
@@ -29,6 +23,6 @@ internal interface SpyEventDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMeta(meta: List<SpyMetaEntity>)
 
-    @Query("SELECT * FROM SPY_EVENT ORDER BY ID ASC LIMIT 1")
+    @Query("SELECT * FROM SPY_EVENT ORDER BY ID DESC LIMIT 1")
     suspend fun getLastEvent(): SpyEventEntity
 }

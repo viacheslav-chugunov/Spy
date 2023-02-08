@@ -1,4 +1,4 @@
-package viacheslav.chugunov.spy.internal.data
+package viacheslav.chugunov.spy.internal.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater

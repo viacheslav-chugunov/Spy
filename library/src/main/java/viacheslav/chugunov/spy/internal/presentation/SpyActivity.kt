@@ -4,9 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import viacheslav.chugunov.spy.R
-import viacheslav.chugunov.spy.SpyEventsListFragment
 import viacheslav.chugunov.spy.internal.data.SpyEvent
-import viacheslav.chugunov.spy.internal.data.SpyEventDetailFragment
 
 internal class SpyActivity : AppCompatActivity(), SpyEventsAdapter.Listener{
     override fun onCreate(savedInstanceState: Bundle?) {
