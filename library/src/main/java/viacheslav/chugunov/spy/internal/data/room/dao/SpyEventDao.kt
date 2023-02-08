@@ -17,7 +17,7 @@ internal interface SpyEventDao {
     @Query("SELECT * FROM SPY_META_ENTITY")
     suspend fun getAllMeta(): List<SpyMetaEntity>
 
-    @Query("SELECT * FROM SPY_EVENT")
+    @Query("SELECT * FROM SPY_EVENT ORDER BY timestamp DESC")
     fun getAllEventsFlow(): Flow<List<SpyEventEntity>>
 
     @Query("SELECT * FROM SPY_META_ENTITY")
