@@ -13,8 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import viacheslav.chugunov.spy.Spy.Companion.applicationContext
-import viacheslav.chugunov.spy.internal.data.SpyEventDetailFragment
-import viacheslav.chugunov.spy.internal.presentation.SpyActivity
 import viacheslav.chugunov.spy.internal.presentation.SpyEventsAdapter
 import viacheslav.chugunov.spy.internal.presentation.SpyViewModel
 

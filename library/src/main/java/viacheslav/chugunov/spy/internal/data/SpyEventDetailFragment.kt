@@ -1,13 +1,11 @@
 package viacheslav.chugunov.spy.internal.data
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import viacheslav.chugunov.spy.R
-import viacheslav.chugunov.spy.internal.presentation.SpyViewModel
 
 class SpyEventDetailFragment : Fragment() {
     override fun onCreateView(
