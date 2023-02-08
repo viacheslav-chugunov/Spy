@@ -15,8 +15,12 @@ import java.util.*
 internal class SpyEventsAdapter(
      events: List<SpyEvent> = emptyList()
 ) : RecyclerView.Adapter<SpyEventsAdapter.ViewHolder>() {
-    private val events = events.toMutableList()
 
+    interface Listener{
+        fun onItemClick(position: Int)
+    }
+    private val events = events.toMutableList()
+    lateinit var listener:Listener
     override fun getItemViewType(position: Int): Int = events[position].spyEventAdapterViewType
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,6 +37,9 @@ internal class SpyEventsAdapter(
     override fun getItemCount(): Int = events.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int){
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(position)
+        }
         val showDivider = position < itemCount - 1
         events[position].bindSpyEventViewHolder(holder, showDivider)
     }
@@ -48,6 +55,10 @@ internal class SpyEventsAdapter(
         val index = this.events.indexOf(event)
         this.events.remove(event)
         notifyItemRemoved(index)
+    }
+
+    fun setListenerrr(listener:Listener){
+        this.listener=listener
     }
 
     @SuppressLint("NotifyDataSetChanged")

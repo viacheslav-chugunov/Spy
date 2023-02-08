@@ -17,7 +17,7 @@ internal data class SpyEvent(
 
     fun bindSpyEventViewHolder(holder: SpyEventsAdapter.ViewHolder, showDivider: Boolean) {
         holder.message.text = message
-        val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH)
+        val formatter = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.ENGLISH)
         val date = Date(timestamp)
         holder.date.text = formatter.format(date)
         holder.divider.isVisible = showDivider
