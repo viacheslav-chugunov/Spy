@@ -14,28 +14,26 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import viacheslav.chugunov.spy.Spy.Companion.applicationContext
 import viacheslav.chugunov.spy.internal.data.SpyEventDetailFragment
+import viacheslav.chugunov.spy.internal.presentation.SpyActivity
 import viacheslav.chugunov.spy.internal.presentation.SpyEventsAdapter
 import viacheslav.chugunov.spy.internal.presentation.SpyViewModel
 
-class SpyEventsListFragment : Fragment(), SpyEventsAdapter.Listener {
-
+class SpyEventsListFragment : Fragment(){
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
     private lateinit var viewModel: SpyViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        viewModel = ViewModelProvider(this)[SpyViewModel::class.java]
         return inflater.inflate(R.layout.fragment_spy_events_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel = ViewModelProvider(this)[SpyViewModel::class.java]
         val recycler = view.findViewById<RecyclerView>(R.id.recycler)
-        val adapter = SpyEventsAdapter()
-        recycler.adapter=adapter
-        adapter.setListenerrr(this)
-        recycler.layoutManager= LinearLayoutManager(applicationContext)
+        val adapter = SpyEventsAdapter(listener = activity as SpyEventsAdapter.Listener)
+        recycler.adapter = adapter
+        recycler.layoutManager = LinearLayoutManager(applicationContext)
         coroutineScope.launch {
             viewModel.allEventsFlow.collect { events ->
                 adapter.setEvents(events)
@@ -44,19 +42,8 @@ class SpyEventsListFragment : Fragment(), SpyEventsAdapter.Listener {
         super.onViewCreated(view, savedInstanceState)
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         coroutineScope.cancel()
-    }
-
-    override fun onItemClick(position: Int) {
-        val fragment = SpyEventDetailFragment()
-        if(activity!=null) {
-            val ft = requireActivity().supportFragmentManager.beginTransaction()
-            ft.replace(R.id.frag_container, fragment)
-            ft.addToBackStack(null)
-            ft.commit()
-        }
     }
 }
