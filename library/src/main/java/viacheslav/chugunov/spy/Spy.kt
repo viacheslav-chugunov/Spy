@@ -6,9 +6,17 @@ import viacheslav.chugunov.spy.internal.data.EventStorage
 import viacheslav.chugunov.spy.internal.data.SpyEvent
 import viacheslav.chugunov.spy.internal.data.SpyEventType
 
-class Spy {
-    private val notifications: NotificationFactory by inject()
-    private val storage: EventStorage by inject()
+class Spy internal constructor(
+    private val applicationContext: Context,
+    private val notifications: NotificationFactory,
+    private val storage: EventStorage
+) {
+
+    constructor(applicationContext: Context) : this(
+        applicationContext = applicationContext,
+        notifications = inject(applicationContext),
+        storage = inject(applicationContext)
+    )
 
     fun info(message: String, vararg meta: SpyMeta) =
         log(message, SpyEventType.INFO, *meta)
@@ -21,15 +29,7 @@ class Spy {
 
     private fun log(message: String, type: SpyEventType, vararg meta: SpyMeta) {
         notifications.show(type, message)
-        val event = SpyEvent.from(message, type, *meta)
+        val event = SpyEvent(message, type, *meta)
         storage.addEvent(event)
-    }
-
-    companion object {
-        internal var applicationContext: Context? = null
-
-        fun install(applicationContext: Context) {
-            Spy.applicationContext = applicationContext
-        }
     }
 }

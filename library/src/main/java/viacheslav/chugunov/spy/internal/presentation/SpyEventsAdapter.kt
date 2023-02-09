@@ -5,18 +5,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.IntDef
 import androidx.recyclerview.widget.RecyclerView
 import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.data.SpyEvent
 import java.util.*
 
 internal class SpyEventsAdapter(
-    events: List<SpyEvent> = emptyList(), private val listener: Listener
+    events: List<Item> = emptyList(),
+    private val listener: Listener
 ) : RecyclerView.Adapter<SpyEventsAdapter.ViewHolder>() {
     private val events = events.toMutableList()
-    interface Listener{
-        fun onItemClick(position: Int, event: SpyEvent)
+
+    interface Item {
+        val spyEventAdapterViewType: Int
+        fun bindSpyEventViewHolder(holder: ViewHolder, showDivider: Boolean, listener: Listener)
     }
+
+    interface Listener {
+        fun onItemClick(event: SpyEvent)
+    }
+
     override fun getItemViewType(position: Int): Int = events[position].spyEventAdapterViewType
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,21 +42,18 @@ internal class SpyEventsAdapter(
     override fun getItemCount(): Int = events.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int){
-        holder.itemView.setOnClickListener {
-            listener.onItemClick(position, events[position])
-        }
         val showDivider = position < itemCount - 1
-        events[position].bindSpyEventViewHolder(holder, showDivider)
+        events[position].bindSpyEventViewHolder(holder, showDivider, listener)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setEvents(events: List<SpyEvent>){
+    fun setEvents(events: List<Item>){
         this.events.clear()
         this.events.addAll(events)
         notifyDataSetChanged()
     }
 
-    fun removeEvent(event: SpyEvent) {
+    fun removeEvent(event: Item) {
         val index = this.events.indexOf(event)
         this.events.remove(event)
         notifyItemRemoved(index)

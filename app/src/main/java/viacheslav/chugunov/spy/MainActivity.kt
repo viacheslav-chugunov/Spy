@@ -7,7 +7,7 @@ import viacheslav.chugunov.spy.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val spy: Spy = Spy()
+    private val spy: Spy by lazy { Spy(applicationContext) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

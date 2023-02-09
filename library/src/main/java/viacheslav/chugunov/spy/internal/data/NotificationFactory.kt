@@ -19,9 +19,8 @@ internal class NotificationFactory(
     private val channelName: String,
 ) {
 
-    private val notificationManager: NotificationManager by lazy {
+    private val notificationManager: NotificationManager =
         applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    }
 
     init {
         createChannel()

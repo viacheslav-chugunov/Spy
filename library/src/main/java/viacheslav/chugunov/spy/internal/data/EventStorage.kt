@@ -3,9 +3,11 @@ package viacheslav.chugunov.spy.internal.data
 import android.content.Context
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import viacheslav.chugunov.spy.internal.data.room.SpyRoomDatabase
+import viacheslav.chugunov.spy.internal.domain.SpyEntityFactory
 import kotlin.coroutines.CoroutineContext
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -18,12 +20,12 @@ internal class EventStorage(
     private val coroutineScope = CoroutineScope(coroutineContext)
     private val dao = SpyRoomDatabase.getInstance(applicationContext, databaseName).eventDao
 
-    fun addEvent(event: SpyEvent) {
+    fun addEvent(event: SpyEntityFactory) {
         coroutineScope.launch {
-            val eventEntity = event.toSpyEventEntity()
+            val eventEntity = event.createSpyEventEntity()
             dao.addEvent(eventEntity)
             val eventId = dao.getLastEvent().id
-            val metaEntities = event.toSpyEventMetaEntities(eventId)
+            val metaEntities = event.createSpyMetaEntity(eventId)
             dao.addMeta(metaEntities)
         }
     }
@@ -34,7 +36,7 @@ internal class EventStorage(
             val eventEntitiesFlow = dao.getAllEventsFlow()
             val metaEntitiesFlow = dao.getAllMetaFlow()
             combine(eventEntitiesFlow, metaEntitiesFlow) { eventEntities, metaEntities ->
-                eventEntities.map { SpyEvent.from(it, metaEntities) }
+                eventEntities.map { SpyEvent(it, metaEntities) }
             }.collect { events ->
                 flow.emit(events)
             }
