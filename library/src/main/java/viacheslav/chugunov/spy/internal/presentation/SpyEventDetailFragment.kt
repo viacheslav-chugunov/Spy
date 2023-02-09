@@ -6,13 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import viacheslav.chugunov.spy.R
+import viacheslav.chugunov.spy.internal.data.SpyEvent
 
-class SpyEventDetailFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        return inflater.inflate(R.layout.fragment_spy_event_detail, container, false)
-    }
-
-}
+internal class SpyEventDetailFragment(event: SpyEvent) : BaseFragment(R.layout.fragment_spy_event_detail)
