@@ -17,13 +17,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.infoNotification.setOnClickListener {
-            spy.info("Test info notification")
+            spy.info("Test info notification", SpyMeta("version","123"), SpyMeta("second","sssecond"),SpyMeta("third","ttthird"))
         }
         binding.warningNotification.setOnClickListener {
-            spy.warning("Test warning notification")
+            spy.warning("Test warning notification",SpyMeta("version","123"), SpyMeta("ver","dwa"),SpyMeta("www","aaa"))
         }
         binding.errorNotification.setOnClickListener {
-            spy.error("Test error notification")
+            spy.error("Test error notification",SpyMeta("version","123"), SpyMeta("ver","dwa"),SpyMeta("www","aaa"))
         }
     }
 }

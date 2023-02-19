@@ -17,7 +17,7 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.fragment_spy_events
         super.onViewCreated(view, savedInstanceState)
         coroutineScope = CoroutineScope(Dispatchers.Main)
         viewModel = ViewModelProvider(this)[SpyViewModel::class.java]
-        val recycler = view.findViewById<RecyclerView>(R.id.recycler)
+        val recycler = view.findViewById<RecyclerView>(R.id.recycler_list)
         val adapter = SpyEventsAdapter(listener = this)
         recycler.adapter = adapter
         recycler.layoutManager = LinearLayoutManager(context)
