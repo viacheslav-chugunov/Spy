@@ -20,7 +20,7 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.fragment_spy_events
         val recycler = view.findViewById<RecyclerView>(R.id.recycler_list)
         val adapter = SpyEventsAdapter(listener = this)
         recycler.adapter = adapter
-        recycler.layoutManager = LinearLayoutManager(context)
+        recycler.layoutManager = LinearLayoutManager(requireContext())
             coroutineScope.launch {
                 viewModel.allEventsFlow.collect { events ->
                     adapter.setEvents(events)
