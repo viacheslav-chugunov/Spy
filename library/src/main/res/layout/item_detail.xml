@@ -6,23 +6,23 @@
     android:columnCount="2">
     
     <TextView
-        android:text="aaa"
+        tools:text="key"
+        android:textColor="#000000"
         android:padding="16dp"
         android:id="@+id/tv_key_detail"
         android:layout_column="0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:gravity="center"/>
+        android:layout_columnWeight="1" />
 
     <TextView
-        android:text="bbb"
+        tools:text="field"
+        android:textColor="#000000"
         android:padding="16dp"
         android:id="@+id/tv_field_detail"
         android:layout_column="1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_columnWeight="1"
-        android:gravity="center"/>
+        android:layout_columnWeight="1" />
 
 </GridLayout>
