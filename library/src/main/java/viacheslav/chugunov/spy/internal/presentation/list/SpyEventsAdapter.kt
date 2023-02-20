@@ -1,11 +1,10 @@
-package viacheslav.chugunov.spy.internal.presentation
+package viacheslav.chugunov.spy.internal.presentation.list
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.IntDef
 import androidx.recyclerview.widget.RecyclerView
 import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.data.SpyEvent

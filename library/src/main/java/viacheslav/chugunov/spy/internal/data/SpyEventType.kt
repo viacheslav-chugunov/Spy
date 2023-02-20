@@ -12,9 +12,9 @@ internal enum class SpyEventType(
 
     companion object {
         fun from(type: String): SpyEventType = when(type) {
-            "INFO" -> INFO
-            "WARNING" -> WARNING
-            "ERROR" -> ERROR
+            INFO.name -> INFO
+            WARNING.name -> WARNING
+            ERROR.name -> ERROR
             else -> throw IllegalArgumentException()
         }
     }
