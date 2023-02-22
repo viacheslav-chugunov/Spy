@@ -4,10 +4,13 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import viacheslav.chugunov.spy.databinding.ActivityMainBinding
+import viacheslav.chugunov.spy.internal.data.SpyConfig
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val spy: Spy by lazy { Spy(applicationContext) }
+    private val spy: Spy by lazy { Spy(applicationContext,
+        SpyConfig.SpyConfigBuilder().setInitialMeta(listOf(SpyMeta("asd","sdvg"),
+            SpyMeta("fas","vcxv"))).build()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,13 +20,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.infoNotification.setOnClickListener {
-            spy.info("Test info notification", SpyMeta("version","123"), SpyMeta("second","sssecond"),SpyMeta("third","ttthird"))
+            spy.info("Test info notification")
         }
         binding.warningNotification.setOnClickListener {
-            spy.warning("Test warning notification",SpyMeta("version","123"), SpyMeta("ver","dwa"),SpyMeta("www","aaa"))
+            spy.warning("Test warning notification")
         }
         binding.errorNotification.setOnClickListener {
-            spy.error("Test error notification",SpyMeta("version","123"), SpyMeta("ver","dwa"),SpyMeta("www","aaa"))
+            spy.error("Test error notification")
         }
     }
 }
