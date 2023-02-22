@@ -18,11 +18,11 @@ internal data class SpyEvent(
     private val meta: List<SpyMeta>
 ) : SpyEntityFactory, SpyEventsAdapter.Item, SpyEventDetailAdapter.Binder, Serializable {
 
-    constructor(message: String, type: SpyEventType, metaList:List<SpyMeta>) : this(
+    constructor(message: String, type: SpyEventType, vararg meta:SpyMeta) : this(
         timestamp = System.currentTimeMillis(),
         message = message,
         type = type,
-        meta = metaList
+        meta = meta.toList()
     )
 
     constructor(event: SpyEventEntity, meta: List<SpyMetaEntity>) : this(

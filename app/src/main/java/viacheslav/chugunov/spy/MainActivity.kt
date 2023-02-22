@@ -8,9 +8,7 @@ import viacheslav.chugunov.spy.internal.data.SpyConfig
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val spy: Spy by lazy { Spy(applicationContext,
-        SpyConfig.SpyConfigBuilder().setInitialMeta(listOf(SpyMeta("asd","sdvg"),
-            SpyMeta("fas","vcxv"))).build()) }
+    private val spy: Spy by lazy { Spy(applicationContext)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
