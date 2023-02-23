@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/spy_res_orange_100">
+    <item>
+        <shape>
+            <gradient
+                android:startColor="@color/spy_res_orange_300"
+                android:endColor="@color/spy_res_orange_100" />
+        </shape>
+    </item>
+</ripple>

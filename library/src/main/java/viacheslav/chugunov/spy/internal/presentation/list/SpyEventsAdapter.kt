@@ -29,6 +29,7 @@ internal class SpyEventsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutRes = when (viewType) {
+            ViewType.SUCCESS -> R.layout.item_spy_event_success
             ViewType.INFO -> R.layout.item_spy_event_info
             ViewType.WARNING -> R.layout.item_spy_event_warning
             ViewType.ERROR -> R.layout.item_spy_event_error
@@ -65,9 +66,10 @@ internal class SpyEventsAdapter(
     }
 
     object ViewType {
-        const val INFO = 1
-        const val WARNING = 2
-        const val ERROR = 3
+        const val SUCCESS = 1
+        const val INFO = 2
+        const val WARNING = 3
+        const val ERROR = 4
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

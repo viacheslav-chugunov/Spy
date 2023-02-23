@@ -10,24 +10,35 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/successNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Success"
+        tools:ignore="HardcodedText" />
+
+    <Button
         android:id="@+id/infoNotification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Show info"/>
+        android:text="Info"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/warningNotification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Show warning"/>
+        android:text="Warning"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/errorNotification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Show error"/>
+        android:text="Error"
+        tools:ignore="HardcodedText" />
 
 </LinearLayout>

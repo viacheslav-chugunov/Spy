@@ -36,6 +36,7 @@ internal data class SpyEvent(
 
     override val spyEventAdapterViewType: Int
         get() = when(type) {
+            SpyEventType.SUCCESS -> SpyEventsAdapter.ViewType.SUCCESS
             SpyEventType.INFO -> SpyEventsAdapter.ViewType.INFO
             SpyEventType.WARNING -> SpyEventsAdapter.ViewType.WARNING
             SpyEventType.ERROR -> SpyEventsAdapter.ViewType.ERROR

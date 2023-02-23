@@ -24,14 +24,13 @@ class Spy internal constructor(
         config = SpyConfig.Builder().build()
     )
 
-    fun info(message: String, vararg meta: SpyMeta) =
-        log(message, SpyEventType.INFO, *meta)
+    fun success(message: String, vararg meta: SpyMeta) = log(message, SpyEventType.SUCCESS, *meta)
 
-    fun warning(message: String, vararg meta: SpyMeta) =
-        log(message, SpyEventType.WARNING, *meta)
+    fun info(message: String, vararg meta: SpyMeta) = log(message, SpyEventType.INFO, *meta)
 
-    fun error(message: String, vararg meta: SpyMeta) =
-        log(message, SpyEventType.ERROR, *meta)
+    fun warning(message: String, vararg meta: SpyMeta) = log(message, SpyEventType.WARNING, *meta)
+
+    fun error(message: String, vararg meta: SpyMeta) = log(message, SpyEventType.ERROR, *meta)
 
     private fun log(message: String, type: SpyEventType, vararg meta: SpyMeta) {
         notifications.show(type, message)

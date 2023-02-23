@@ -17,6 +17,9 @@ class MainActivity : AppCompatActivity() {
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.successNotification.setOnClickListener {
+            spy.success("Test success notification")
+        }
         binding.infoNotification.setOnClickListener {
             spy.info("Test info notification")
         }
