@@ -5,10 +5,26 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import viacheslav.chugunov.spy.databinding.ActivityMainBinding
 import viacheslav.chugunov.spy.internal.data.SpyConfig
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val spy: Spy by lazy { Spy(applicationContext)}
+    private val spy: Spy by lazy {
+        val locale = Locale.getDefault()
+        val time = SimpleDateFormat("dd.MM.yy HH:mm:ss", locale).format(Date(System.currentTimeMillis()))
+        val config = SpyConfig.Builder()
+            .setInitialMeta(
+                SpyMeta("manufacturer", Build.MANUFACTURER),
+                SpyMeta("model", Build.MODEL),
+                SpyMeta("brand", Build.BRAND),
+                SpyMeta("language", locale.language),
+                SpyMeta("time", time)
+            )
+            .build()
+        Spy(applicationContext, config)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

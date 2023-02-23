@@ -3,6 +3,7 @@ package viacheslav.chugunov.spy.internal.presentation.detail
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import viacheslav.chugunov.spy.R
@@ -20,12 +21,16 @@ internal class SpyEventDetailFragment : BaseFragment(R.layout.fragment_spy_event
         }
     }
 
+    override val title: String by lazy { event.message }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         event = savedInstanceState?.getSerializable(EXTRA_SPY_EVENT) as? SpyEvent ?: event
         val recycler = view.findViewById<RecyclerView>(R.id.recycler_detail)
         recycler.layoutManager = LinearLayoutManager(context)
         recycler.adapter = SpyEventDetailAdapter(event)
+        val divider = view.findViewById<View>(R.id.recycler_detail_divider)
+        divider.isVisible = event.hasMeta
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

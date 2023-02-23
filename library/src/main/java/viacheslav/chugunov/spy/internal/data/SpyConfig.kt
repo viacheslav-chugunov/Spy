@@ -7,7 +7,13 @@ class SpyConfig private constructor(private val initialMeta: List<SpyMeta>) {
 
     class Builder {
         private var initialMeta: List<SpyMeta> = emptyList()
-        fun setInitialMeta(initialMeta: List<SpyMeta>) = apply { this.initialMeta = initialMeta }
+
+        fun setInitialMeta(initialMeta: List<SpyMeta>): Builder =
+            apply { this.initialMeta = initialMeta }
+
+        fun setInitialMeta(vararg  initialMeta: SpyMeta): Builder =
+            apply { this.initialMeta = initialMeta.toList() }
+
         fun build(): SpyConfig = SpyConfig(initialMeta)
     }
 }

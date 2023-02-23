@@ -13,10 +13,11 @@ import java.util.*
 
 internal data class SpyEvent(
     private val timestamp: Long,
-    private val message: String,
+    val message: String,
     private val type: SpyEventType,
     private val meta: List<SpyMeta>
 ) : SpyEntityFactory, SpyEventsAdapter.Item, SpyEventDetailAdapter.Binder, Serializable {
+    val hasMeta = meta.isNotEmpty()
 
     constructor(message: String, type: SpyEventType, vararg meta:SpyMeta) : this(
         timestamp = System.currentTimeMillis(),
