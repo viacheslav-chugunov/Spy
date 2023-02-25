@@ -6,7 +6,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import viacheslav.chugunov.spy.Spy
 import viacheslav.chugunov.spy.SpyMeta
-import viacheslav.chugunov.spy.internal.data.SpyConfig
+import viacheslav.chugunov.spy.SpyConfig
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity() {
                 SpyMeta("language", locale.language),
                 SpyMeta("time", time)
             )
+            .showOpenSpyNotification(true)
+            .isNotificationsImportant(true)
             .build()
         Spy(applicationContext, config)
     }
@@ -36,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         val btnInfoNotification = findViewById<Button>(R.id.btn_info_notification)
         val btnWarningNotification = findViewById<Button>(R.id.btn_warning_notification)
         val btnErrorNotification = findViewById<Button>(R.id.btn_error_notification)
+        spy
         btnSuccessNotification.setOnClickListener {
             spy.success("Test success notification")
         }

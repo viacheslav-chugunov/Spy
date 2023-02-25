@@ -24,6 +24,11 @@ class Spy internal constructor(
         config = SpyConfig.Builder().build()
     )
 
+    init {
+        notifications.createChannel(config.isNotificationsImportant)
+        if (config.showSpyNotification) notifications.showSpyNotification()
+    }
+
     fun success(message: String, vararg meta: SpyMeta) = log(message, SpyEventType.SUCCESS, *meta)
 
     fun info(message: String, vararg meta: SpyMeta) = log(message, SpyEventType.INFO, *meta)
@@ -33,8 +38,8 @@ class Spy internal constructor(
     fun error(message: String, vararg meta: SpyMeta) = log(message, SpyEventType.ERROR, *meta)
 
     private fun log(message: String, type: SpyEventType, vararg meta: SpyMeta) {
-        notifications.show(type, message)
-        val metaArray = (meta.toList()+config.getInitialMeta()).toTypedArray()
+        notifications.showEventNotification(type, message)
+        val metaArray = (meta.toList()+config.initialMeta).toTypedArray()
         val event = SpyEvent(message, type, *metaArray)
         storage.addEvent(event)
     }
