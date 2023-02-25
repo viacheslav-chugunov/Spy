@@ -1,6 +1,5 @@
 package viacheslav.chugunov.spy.internal.presentation
 
-import android.graphics.Color
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -15,8 +14,6 @@ internal class SpyActivity : AppCompatActivity(), SpyActivityController {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spy)
-        window.statusBarColor = Color.WHITE
-        window.navigationBarColor = Color.WHITE
         if (savedInstanceState == null) {
             val spyEventsListFragment = SpyEventsListFragment.newInstance()
             supportFragmentManager.beginTransaction()

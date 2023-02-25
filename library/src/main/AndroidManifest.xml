@@ -9,7 +9,7 @@
             android:name=".internal.presentation.SpyActivity"
             android:exported="false"
             android:label="Spy"
-            android:theme="@style/Theme.Spy.NoActionBar">
+            android:theme="@style/Theme.Spy">
         </activity>
 
     </application>
