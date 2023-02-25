@@ -1,4 +1,4 @@
-package viacheslav.chugunov.spy
+package example.app
 
 import org.junit.Test
 

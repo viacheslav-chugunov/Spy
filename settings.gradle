@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Spy"
-include ':app'
+include ':example'
 include ':library'
 include ':library-no-op'

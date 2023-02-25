@@ -1,16 +1,16 @@
-package viacheslav.chugunov.spy
+package example.app
 
 import android.os.Build
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import viacheslav.chugunov.spy.databinding.ActivityMainBinding
+import viacheslav.chugunov.spy.Spy
+import viacheslav.chugunov.spy.SpyMeta
 import viacheslav.chugunov.spy.internal.data.SpyConfig
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
     private val spy: Spy by lazy {
         val locale = Locale.getDefault()
         val time = SimpleDateFormat("dd.MM.yy HH:mm:ss", locale).format(Date(System.currentTimeMillis()))
@@ -31,18 +31,21 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),1)
         }
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        binding.successNotification.setOnClickListener {
+        setContentView(R.layout.activity_main)
+        val btnSuccessNotification = findViewById<Button>(R.id.btn_success_notification)
+        val btnInfoNotification = findViewById<Button>(R.id.btn_info_notification)
+        val btnWarningNotification = findViewById<Button>(R.id.btn_warning_notification)
+        val btnErrorNotification = findViewById<Button>(R.id.btn_error_notification)
+        btnSuccessNotification.setOnClickListener {
             spy.success("Test success notification")
         }
-        binding.infoNotification.setOnClickListener {
+        btnInfoNotification.setOnClickListener {
             spy.info("Test info notification")
         }
-        binding.warningNotification.setOnClickListener {
+        btnWarningNotification.setOnClickListener {
             spy.warning("Test warning notification")
         }
-        binding.errorNotification.setOnClickListener {
+        btnErrorNotification.setOnClickListener {
             spy.error("Test error notification")
         }
     }
