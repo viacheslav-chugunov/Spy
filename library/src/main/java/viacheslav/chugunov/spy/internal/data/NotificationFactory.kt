@@ -35,7 +35,7 @@ internal class NotificationFactory(
         showNotification(
             title = applicationContext.getString(R.string.spy_res_spy_notification_title),
             description = applicationContext.getString(R.string.spy_res_spy_notification_description),
-            iconRes = R.drawable.ic_open_spy,
+            iconRes = R.drawable.spy_res_ic_open_spy,
             priority = NotificationCompat.PRIORITY_MIN,
             autoCancel = false,
             ongoing = true,

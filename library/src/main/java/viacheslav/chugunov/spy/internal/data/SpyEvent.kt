@@ -1,6 +1,8 @@
 package viacheslav.chugunov.spy.internal.data
 
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.SpyMeta
 import viacheslav.chugunov.spy.internal.data.room.entity.SpyEventEntity
 import viacheslav.chugunov.spy.internal.data.room.entity.SpyMetaEntity
@@ -69,5 +71,8 @@ internal data class SpyEvent(
         val meta = meta[position]
         holder.key.text = meta.key
         holder.field.text = meta.field
+        val bgColorRes = if (position % 2 == 0) R.color.spy_res_white else R.color.spy_res_gray_100
+        val context = holder.itemView.context
+        holder.root.setBackgroundColor(ContextCompat.getColor(context, bgColorRes))
     }
 }

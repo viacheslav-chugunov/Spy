@@ -11,6 +11,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         tools:itemCount="5"
-        tools:listitem="@layout/item_spy_event_info"/>
+        tools:listitem="@layout/spy_res_item_spy_event_info"/>
 
 </LinearLayout>

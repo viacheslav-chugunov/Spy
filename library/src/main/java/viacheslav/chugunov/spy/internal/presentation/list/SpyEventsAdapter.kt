@@ -29,10 +29,10 @@ internal class SpyEventsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutRes = when (viewType) {
-            ViewType.SUCCESS -> R.layout.item_spy_event_success
-            ViewType.INFO -> R.layout.item_spy_event_info
-            ViewType.WARNING -> R.layout.item_spy_event_warning
-            ViewType.ERROR -> R.layout.item_spy_event_error
+            ViewType.SUCCESS -> R.layout.spy_res_item_spy_event_success
+            ViewType.INFO -> R.layout.spy_res_item_spy_event_info
+            ViewType.WARNING -> R.layout.spy_res_item_spy_event_warning
+            ViewType.ERROR -> R.layout.spy_res_item_spy_event_error
             else -> throw IllegalStateException("Provided unexpected viewType=$viewType")
         }
         val inflater = LayoutInflater.from(parent.context)

@@ -2,4 +2,5 @@
     <string name="spy_res_app_name">Spy</string>
     <string name="spy_res_spy_notification_title">Go to Spy</string>
     <string name="spy_res_spy_notification_description">Click here to show spy events</string>
+    <string name="spy_res_search">Search</string>
 </resources>

@@ -9,19 +9,24 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.data.SpyEvent
+import viacheslav.chugunov.spy.internal.domain.SearchViewVisitor
 import viacheslav.chugunov.spy.internal.presentation.BaseFragment
 import viacheslav.chugunov.spy.internal.presentation.detail.SpyEventDetailFragment
 
-internal class SpyEventsListFragment : BaseFragment(R.layout.fragment_spy_events_list),
-    SpyEventsAdapter.Listener {
+internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_spy_events_list),
+    SpyEventsAdapter.Listener, SearchViewVisitor {
 
     companion object {
         fun newInstance() = SpyEventsListFragment()
     }
 
+    private lateinit var viewModel: SpyEventsViewModel
+
+    override val showSearch: Boolean = true
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val viewModel = ViewModelProvider(this)[SpyEventsViewModel::class.java]
+        viewModel = ViewModelProvider(this)[SpyEventsViewModel::class.java]
         val recycler = view.findViewById<RecyclerView>(R.id.recycler_list)
         val adapter = SpyEventsAdapter(listener = this)
         recycler.adapter = adapter
@@ -33,8 +38,17 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.fragment_spy_events
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.updateSearch("")
+    }
+
     override fun onItemClick(event: SpyEvent) {
         val spyEventDetailFragment = SpyEventDetailFragment.newInstance(event)
         navigate(spyEventDetailFragment)
+    }
+
+    override fun onSearchChanged(query: String) {
+        viewModel.updateSearch(query)
     }
 }

@@ -2,7 +2,6 @@ package viacheslav.chugunov.spy.internal.presentation.detail
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +9,7 @@ import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.data.SpyEvent
 import viacheslav.chugunov.spy.internal.presentation.BaseFragment
 
-internal class SpyEventDetailFragment : BaseFragment(R.layout.fragment_spy_event_detail) {
+internal class SpyEventDetailFragment : BaseFragment(R.layout.spy_res_fragment_spy_event_detail) {
     private lateinit var event: SpyEvent
 
     companion object {

@@ -11,9 +11,11 @@ import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.domain.SpyActivityController
 import viacheslav.chugunov.spy.internal.domain.SpyNavigation
 
-abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fragment(), SpyNavigation {
+abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fragment(),
+    SpyNavigation {
     private var controller: SpyActivityController? = null
     protected open val title: String by lazy { getString(R.string.spy_res_app_name) }
+    protected open val showSearch: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -34,6 +36,12 @@ abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fragment(),
     override fun onStart() {
         super.onStart()
         controller?.setTitle(title)
+        controller?.showSearchAction(showSearch)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        controller?.showSearchAction(false)
     }
 
     override fun navigate(fragment: Fragment) {

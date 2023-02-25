@@ -12,7 +12,7 @@ internal class SpyEventDetailAdapter(
 ) : RecyclerView.Adapter<SpyEventDetailAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.item_detail, parent, false)
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.spy_res_item_detail, parent, false)
         return ViewHolder(layout)
     }
 
@@ -23,6 +23,7 @@ internal class SpyEventDetailAdapter(
     override fun getItemCount(): Int = binder.spyMetaAdapterItemCount
 
     class ViewHolder(view:View): RecyclerView.ViewHolder(view) {
+        val root: View = view.findViewById(R.id.ll_root)
         val key: TextView = view.findViewById(R.id.tv_key_detail)
         val field: TextView = view.findViewById(R.id.tv_field_detail)
     }
