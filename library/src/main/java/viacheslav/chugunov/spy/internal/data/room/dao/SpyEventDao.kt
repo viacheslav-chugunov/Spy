@@ -24,13 +24,13 @@ internal interface SpyEventDao {
     suspend fun getLastEvent(): SpyEventEntity
 
     @Query("DELETE FROM SPY_EVENT")
-    fun deleteEvents()
+    suspend fun deleteEvents()
 
     @Query("DELETE FROM SPY_META_ENTITY")
-    fun deleteMetas()
+    suspend fun deleteMetas()
 
     @Transaction
-    fun removeAllData(){
+    suspend fun removeAllData(){
         deleteEvents()
         deleteMetas()
     }
