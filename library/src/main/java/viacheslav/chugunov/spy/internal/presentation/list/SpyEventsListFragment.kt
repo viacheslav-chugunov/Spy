@@ -11,12 +11,14 @@ import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.data.EventStorage
 import viacheslav.chugunov.spy.internal.data.SpyEvent
 import viacheslav.chugunov.spy.internal.data.room.SpyRoomDatabase
+import viacheslav.chugunov.spy.internal.domain.DeleteDialogController
 import viacheslav.chugunov.spy.internal.domain.SearchViewVisitor
 import viacheslav.chugunov.spy.internal.presentation.BaseFragment
 import viacheslav.chugunov.spy.internal.presentation.detail.SpyEventDetailFragment
 
-internal class SpyEventsListFragment() : BaseFragment(R.layout.spy_res_fragment_spy_events_list),
-    SpyEventsAdapter.Listener, SearchViewVisitor, DeleteDialogFragment.Listener {
+internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_spy_events_list),
+    SpyEventsAdapter.Listener, SearchViewVisitor,
+    DeleteDialogFragment.Listener, DeleteDialogController {
 
     companion object {
         fun newInstance() = SpyEventsListFragment()
@@ -57,5 +59,9 @@ internal class SpyEventsListFragment() : BaseFragment(R.layout.spy_res_fragment_
 
     override fun onAgreeButtonClick() {
         viewModel.removeAllData()
+    }
+
+    override fun showDeleteDialog() {
+        DeleteDialogFragment().show(childFragmentManager, null)
     }
 }

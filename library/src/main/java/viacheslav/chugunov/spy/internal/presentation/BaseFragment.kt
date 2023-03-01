@@ -33,7 +33,6 @@ abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? = inflater.inflate(layoutRes, container, false)
-
     override fun onStart() {
         super.onStart()
         controller?.setTitle(title)

@@ -15,6 +15,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import viacheslav.chugunov.spy.R
+import viacheslav.chugunov.spy.internal.domain.DeleteDialogController
 import viacheslav.chugunov.spy.internal.domain.SearchViewVisitor
 import viacheslav.chugunov.spy.internal.domain.SpyActionController
 import viacheslav.chugunov.spy.internal.presentation.list.DeleteDialogFragment
@@ -57,7 +58,9 @@ internal class SpyActivity : AppCompatActivity(), SpyActionController{
             imm.showSoftInput(etSearch, InputMethodManager.SHOW_IMPLICIT)
         }
         ivDelete.setOnClickListener {
-            DeleteDialogFragment().show(supportFragmentManager, null)
+            supportFragmentManager.fragments.getOrNull(0)?.let{
+                if(it is DeleteDialogController) it.showDeleteDialog()
+            }
         }
         etSearch.addTextChangedListener(searchTextWatcher)
     }

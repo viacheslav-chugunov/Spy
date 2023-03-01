@@ -3,4 +3,7 @@
     <string name="spy_res_spy_notification_title">Go to Spy</string>
     <string name="spy_res_spy_notification_description">Click here to show spy events</string>
     <string name="spy_res_search">Search</string>
+    <string name="do_you_really_want_to_delete_all_events">Do you really want to delete all events?</string>
+    <string name="agree">Agree</string>
+    <string name="disagree">Disagree</string>
 </resources>

@@ -1,10 +1,13 @@
 package viacheslav.chugunov.spy.internal.presentation.list
 
+import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatButton
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import viacheslav.chugunov.spy.R
 
@@ -20,7 +23,7 @@ class DeleteDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        listener = activity?.supportFragmentManager?.fragments?.get(0) as Listener
+        listener = parentFragment as Listener
         super.onCreate(savedInstanceState)
     }
 
@@ -47,4 +50,16 @@ class DeleteDialogFragment : BottomSheetDialogFragment() {
         super.onDestroy()
         listener = null
     }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState)
+        dialog.setOnShowListener {
+            val bottomSheetDialog = it as BottomSheetDialog
+            val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+            bottomSheet?.setBackgroundColor(Color.TRANSPARENT)
+        }
+        return dialog
+    }
+
 }
+

@@ -44,9 +44,7 @@ internal class EventStorage(
         return flow
     }
 
-    fun removeAllData() {
-        coroutineScope.launch {
+    suspend fun removeAllData() {
             dao.removeAllData()
-        }
     }
 }

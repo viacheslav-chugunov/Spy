@@ -30,10 +30,10 @@ internal class SpyEventsViewModel private constructor(
     )
 
     fun removeAllData() {
-        viewModelScope.launch(Dispatchers.Main) { storage.removeAllData() }
+        viewModelScope.launch(Dispatchers.IO) { storage.removeAllData() }
     }
 
     fun updateSearch(query: String) {
-        viewModelScope.launch(Dispatchers.Main) { allEventsQuery.emit(query) }
+        viewModelScope.launch(Dispatchers.IO) { allEventsQuery.emit(query) }
     }
 }
