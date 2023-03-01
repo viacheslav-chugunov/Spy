@@ -8,13 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.*
 import viacheslav.chugunov.spy.R
+import viacheslav.chugunov.spy.internal.data.EventStorage
 import viacheslav.chugunov.spy.internal.data.SpyEvent
+import viacheslav.chugunov.spy.internal.data.room.SpyRoomDatabase
 import viacheslav.chugunov.spy.internal.domain.SearchViewVisitor
 import viacheslav.chugunov.spy.internal.presentation.BaseFragment
 import viacheslav.chugunov.spy.internal.presentation.detail.SpyEventDetailFragment
 
-internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_spy_events_list),
-    SpyEventsAdapter.Listener, SearchViewVisitor {
+internal class SpyEventsListFragment() : BaseFragment(R.layout.spy_res_fragment_spy_events_list),
+    SpyEventsAdapter.Listener, SearchViewVisitor, DeleteDialogFragment.Listener{
 
     companion object {
         fun newInstance() = SpyEventsListFragment()
@@ -23,6 +25,7 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_sp
     private lateinit var viewModel: SpyEventsViewModel
 
     override val showSearch: Boolean = true
+    override val showDelete: Boolean = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,5 +53,9 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_sp
 
     override fun onSearchChanged(query: String) {
         viewModel.updateSearch(query)
+    }
+
+    override fun onAgreeButtonClick() {
+        viewModel.removeAllData()
     }
 }

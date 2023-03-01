@@ -8,18 +8,19 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import viacheslav.chugunov.spy.R
-import viacheslav.chugunov.spy.internal.domain.SpyActivityController
+import viacheslav.chugunov.spy.internal.domain.SpyActionController
 import viacheslav.chugunov.spy.internal.domain.SpyNavigation
 
 abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fragment(),
     SpyNavigation {
-    private var controller: SpyActivityController? = null
+    private var controller: SpyActionController? = null
     protected open val title: String by lazy { getString(R.string.spy_res_app_name) }
     protected open val showSearch: Boolean = false
+    protected open val showDelete: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        controller = context as SpyActivityController
+        controller = context as SpyActionController
     }
 
     override fun onDetach() {
@@ -37,11 +38,13 @@ abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fragment(),
         super.onStart()
         controller?.setTitle(title)
         controller?.showSearchAction(showSearch)
+        controller?.showDeleteAction(showDelete)
     }
 
     override fun onStop() {
         super.onStop()
         controller?.showSearchAction(false)
+        controller?.showDeleteAction(false)
     }
 
     override fun navigate(fragment: Fragment) {

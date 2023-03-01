@@ -1,9 +1,6 @@
 package viacheslav.chugunov.spy.internal.data.room.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import viacheslav.chugunov.spy.internal.data.room.entity.SpyEventEntity
 import viacheslav.chugunov.spy.internal.data.room.entity.SpyMetaEntity
@@ -25,4 +22,16 @@ internal interface SpyEventDao {
 
     @Query("SELECT * FROM SPY_EVENT ORDER BY ID DESC LIMIT 1")
     suspend fun getLastEvent(): SpyEventEntity
+
+    @Query("DELETE FROM SPY_EVENT")
+    fun deleteEvents()
+
+    @Query("DELETE FROM SPY_META_ENTITY")
+    fun deleteMetas()
+
+    @Transaction
+    fun removeAllData(){
+        deleteEvents()
+        deleteMetas()
+    }
 }

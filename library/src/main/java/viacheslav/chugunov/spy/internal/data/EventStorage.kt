@@ -43,4 +43,10 @@ internal class EventStorage(
         }
         return flow
     }
+
+    fun removeAllData(){
+        coroutineScope.launch {
+            dao.removeAllData()
+        }
+    }
 }

@@ -12,7 +12,7 @@ import viacheslav.chugunov.spy.internal.data.inject
 
 internal class SpyEventsViewModel private constructor(
     application: Application,
-    storage: EventStorage
+    private val storage: EventStorage
 ) : AndroidViewModel(application) {
     private val allEventsQuery = MutableStateFlow("")
     val allEventsFlow = storage.getAllEventsFlow().combine(allEventsQuery) { events, query ->
@@ -28,6 +28,10 @@ internal class SpyEventsViewModel private constructor(
         application = application,
         storage = inject(application)
     )
+
+    fun removeAllData(){
+        viewModelScope.launch(Dispatchers.Main) { storage.removeAllData() }
+    }
 
     fun updateSearch(query: String) {
         viewModelScope.launch(Dispatchers.Main) { allEventsQuery.emit(query) }
