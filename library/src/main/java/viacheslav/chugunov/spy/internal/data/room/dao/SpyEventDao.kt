@@ -30,7 +30,7 @@ internal interface SpyEventDao {
     suspend fun deleteMetas()
 
     @Transaction
-    suspend fun removeAllData(){
+    suspend fun removeAllData() {
         deleteEvents()
         deleteMetas()
     }

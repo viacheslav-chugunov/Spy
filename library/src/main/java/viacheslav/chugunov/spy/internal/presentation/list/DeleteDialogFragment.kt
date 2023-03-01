@@ -36,12 +36,15 @@ class DeleteDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         buttonAgree = view.findViewById(R.id.b_agree_delete_dialog)
         buttonDisagree = view.findViewById(R.id.b_disagree_delete_dialog)
-        buttonAgree.setOnClickListener { listener?.onAgreeButtonClick() }
-        buttonDisagree.setOnClickListener {dismiss()}
+        buttonAgree.setOnClickListener {
+            listener?.onAgreeButtonClick()
+            dismiss()
+        }
+        buttonDisagree.setOnClickListener { dismiss() }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        listener=null
+        listener = null
     }
 }

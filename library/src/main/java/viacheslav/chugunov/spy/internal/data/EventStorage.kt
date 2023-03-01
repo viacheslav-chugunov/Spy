@@ -15,7 +15,7 @@ import kotlin.reflect.KProperty
 internal class EventStorage(
     applicationContext: Context,
     databaseName: String,
-    coroutineContext: CoroutineContext
+    coroutineContext: CoroutineContext,
 ) {
     private val coroutineScope = CoroutineScope(coroutineContext)
     private val dao = SpyRoomDatabase.getInstance(applicationContext, databaseName).eventDao
@@ -44,7 +44,7 @@ internal class EventStorage(
         return flow
     }
 
-    fun removeAllData(){
+    fun removeAllData() {
         coroutineScope.launch {
             dao.removeAllData()
         }

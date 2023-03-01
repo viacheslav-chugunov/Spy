@@ -16,7 +16,7 @@ import viacheslav.chugunov.spy.internal.presentation.BaseFragment
 import viacheslav.chugunov.spy.internal.presentation.detail.SpyEventDetailFragment
 
 internal class SpyEventsListFragment() : BaseFragment(R.layout.spy_res_fragment_spy_events_list),
-    SpyEventsAdapter.Listener, SearchViewVisitor, DeleteDialogFragment.Listener{
+    SpyEventsAdapter.Listener, SearchViewVisitor, DeleteDialogFragment.Listener {
 
     companion object {
         fun newInstance() = SpyEventsListFragment()
