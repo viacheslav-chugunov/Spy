@@ -28,10 +28,6 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_sp
 
     private lateinit var viewModel: SpyEventsViewModel
 
-    private lateinit var condition: ConditionViewTypeAdapter
-
-    private lateinit var filterDialogFragment: FilterDialogFragment
-
     override val showSearch: Boolean = true
     override val showDelete: Boolean = true
     override val showFilter: Boolean = true
@@ -39,23 +35,15 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_sp
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[SpyEventsViewModel::class.java]
-
-        if (savedInstanceState == null) {
-            condition = ConditionViewTypeAdapter()
-            filterDialogFragment = FilterDialogFragment()
-        } else {
-            condition = savedInstanceState.getParcelable("condition")!!
-            filterDialogFragment = savedInstanceState.getParcelable("filter")!!
-        }
-
         val recycler = view.findViewById<RecyclerView>(R.id.recycler_list)
         adapter = SpyEventsAdapter(listener = this)
         recycler.adapter = adapter
         recycler.layoutManager = LinearLayoutManager(requireContext())
-
-        val index = condition.getAvailableIndex()
-        if (index >= 0) onCheckBoxesClicked(index, true)
-        else onCheckBoxesClicked(0, false)
+        lifecycleScope.launch {
+            viewModel.allEventsFlow.collect { events ->
+                adapter.setEvents(events)
+            }
+        }
     }
 
     override fun onStop() {
@@ -73,10 +61,10 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_sp
     }
 
     override fun onCheckBoxesClicked(index: Int, isChecked: Boolean) {
-        condition.addCondition(index, isChecked)
+        viewModel.setFilter(index, isChecked)
         lifecycleScope.launch {
             viewModel.allEventsFlow.collect { events ->
-                adapter.setEvents(events.filter { condition.getAllConditions(it.spyEventAdapterViewType) })
+                adapter.setEvents(events)
             }
         }
     }
@@ -85,17 +73,15 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_sp
         viewModel.removeAllData()
     }
 
+    override fun provideFilters(): Map<Int, Boolean> = viewModel.getMap()
+
+
     override fun showDeleteDialog() {
         DeleteDialogFragment().show(childFragmentManager, null)
     }
 
     override fun showFilterDialog() {
-        filterDialogFragment.show(childFragmentManager, null)
+        FilterDialogFragment().show(childFragmentManager, null)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable("filter", filterDialogFragment)
-        outState.putParcelable("condition", condition)
-    }
 }

@@ -10,25 +10,39 @@ import viacheslav.chugunov.spy.internal.data.EventStorage
 import viacheslav.chugunov.spy.internal.data.SpyEvent
 import viacheslav.chugunov.spy.internal.data.SpyEventType
 import viacheslav.chugunov.spy.internal.data.inject
+import viacheslav.chugunov.spy.internal.presentation.ConditionViewTypeAdapter
 
 internal class SpyEventsViewModel private constructor(
     application: Application,
     private val storage: EventStorage,
 ) : AndroidViewModel(application) {
+    private val condition = ConditionViewTypeAdapter()
+
     private val allEventsQuery = MutableStateFlow("")
-    val allEventsFlow = storage.getAllEventsFlow().combine(allEventsQuery) { events, query ->
-        val trimmedQuery = query.trim().lowercase()
-        if (query.isEmpty()) {
-            events
-        } else {
-            events.filter { it.message.lowercase().contains(trimmedQuery) }
+    private var filters = MutableStateFlow(condition.map)
+
+    val allEventsFlow =
+        combine(storage.getAllEventsFlow(), allEventsQuery, filters) { events, query, map ->
+            val trimmedQuery = query.trim().lowercase()
+            val resultEvents = events.filter { map[it.spyEventAdapterViewType]!! }
+            if (query.isEmpty()) {
+                resultEvents
+            } else {
+                resultEvents.filter { it.message.lowercase().contains(trimmedQuery) }
+            }
         }
-    }
 
     constructor(application: Application) : this(
         application = application,
         storage = inject(application)
     )
+
+    fun getMap() = filters.value
+
+    fun setFilter(key: Int, value: Boolean) {
+        condition.addCondition(key, value)
+        filters = MutableStateFlow(condition.map)
+    }
 
     fun removeAllData() {
         viewModelScope.launch(Dispatchers.IO) { storage.removeAllData() }
