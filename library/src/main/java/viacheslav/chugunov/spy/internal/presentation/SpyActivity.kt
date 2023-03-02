@@ -6,29 +6,26 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import viacheslav.chugunov.spy.R
-import viacheslav.chugunov.spy.internal.domain.DeleteDialogController
+import viacheslav.chugunov.spy.internal.domain.DialogController
 import viacheslav.chugunov.spy.internal.domain.SearchViewVisitor
 import viacheslav.chugunov.spy.internal.domain.SpyActionController
-import viacheslav.chugunov.spy.internal.presentation.list.DeleteDialogFragment
 import viacheslav.chugunov.spy.internal.presentation.list.SpyEventsListFragment
 
-internal class SpyActivity : AppCompatActivity(), SpyActionController{
+internal class SpyActivity : AppCompatActivity(), SpyActionController {
     private var isSearchMode: Boolean = false
     private var searchEnabled: Boolean = false
 
-    private val tvTitle  by lazy { findViewById<TextView>(R.id.title) }
+    private val tvTitle by lazy { findViewById<TextView>(R.id.title) }
     private val ivSearch by lazy { findViewById<ImageView>(R.id.action_search) }
     private val etSearch by lazy { findViewById<EditText>(R.id.search_input) }
-    private val ivDelete by lazy { findViewById<ImageView>(R.id.action_delete)}
+    private val ivDelete by lazy { findViewById<ImageView>(R.id.action_delete) }
+    private val ivFilter by lazy { findViewById<ImageView>(R.id.action_filter) }
 
     private val searchTextWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
@@ -47,21 +44,28 @@ internal class SpyActivity : AppCompatActivity(), SpyActionController{
                 .commit()
         }
         ivSearch.setOnClickListener {
-            ivDelete.visibility = View.GONE
             isSearchMode = true
             tvTitle.isVisible = false
             etSearch.isVisible = true
             ivSearch.isVisible = false
+            ivFilter.isVisible = false
+            ivDelete.isVisible = false
             etSearch.setText("")
             etSearch.requestFocus()
             val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(etSearch, InputMethodManager.SHOW_IMPLICIT)
         }
         ivDelete.setOnClickListener {
-            supportFragmentManager.fragments.getOrNull(0)?.let{
-                if(it is DeleteDialogController) it.showDeleteDialog()
+            supportFragmentManager.fragments.getOrNull(0)?.let {
+                if (it is DialogController) it.showDeleteDialog()
             }
         }
+        ivFilter.setOnClickListener {
+            supportFragmentManager.fragments.getOrNull(0)?.let {
+                if (it is DialogController) it.showFilterDialog()
+            }
+        }
+
         etSearch.addTextChangedListener(searchTextWatcher)
     }
 
@@ -88,7 +92,11 @@ internal class SpyActivity : AppCompatActivity(), SpyActionController{
     }
 
     override fun showDeleteAction(show: Boolean) {
-        ivDelete.visibility = if(!show) View.GONE else View.VISIBLE
+        ivDelete.visibility = if (!show) View.GONE else View.VISIBLE
+    }
+
+    override fun showFilterAction(show: Boolean) {
+        ivFilter.visibility = if (!show) View.GONE else View.VISIBLE
     }
 
     override fun navigate(fragment: Fragment) {
@@ -105,6 +113,7 @@ internal class SpyActivity : AppCompatActivity(), SpyActionController{
             tvTitle.isVisible = true
             etSearch.isVisible = false
             ivDelete.isVisible = true
+            ivFilter.isVisible = true
         } else {
             super.onBackPressed()
         }

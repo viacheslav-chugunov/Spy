@@ -1,39 +1,16 @@
 package viacheslav.chugunov.spy.internal.presentation.list
 
-import android.app.Dialog
-import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatButton
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import viacheslav.chugunov.spy.R
+import viacheslav.chugunov.spy.internal.presentation.BaseDialog
 
-class DeleteDialogFragment : BottomSheetDialogFragment() {
+class DeleteDialogFragment : BaseDialog(R.layout.spy_res_delete_dialog_fragment) {
 
     private lateinit var buttonAgree: AppCompatButton
     private lateinit var buttonDisagree: AppCompatButton
 
-    private var listener: Listener? = null
-
-    interface Listener {
-        fun onAgreeButtonClick()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        listener = parentFragment as Listener
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        return inflater.inflate(R.layout.spy_res_delete_dialog_fragment, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,21 +21,6 @@ class DeleteDialogFragment : BottomSheetDialogFragment() {
             dismiss()
         }
         buttonDisagree.setOnClickListener { dismiss() }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        listener = null
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
-        dialog.setOnShowListener {
-            val bottomSheetDialog = it as BottomSheetDialog
-            val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-            bottomSheet?.setBackgroundColor(Color.TRANSPARENT)
-        }
-        return dialog
     }
 
 }

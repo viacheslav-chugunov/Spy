@@ -4,4 +4,5 @@ internal interface SpyActionController : SpyNavigation {
     fun setTitle(title: String)
     fun showSearchAction(show: Boolean)
     fun showDeleteAction(show: Boolean)
+    fun showFilterAction(show: Boolean)
 }

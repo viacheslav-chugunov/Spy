@@ -47,6 +47,14 @@
                 android:layout_height="wrap_content"/>
 
             <ImageView
+                android:id="@+id/action_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/spy_res_ic_filter"/>
+
+            <ImageView
                 android:id="@+id/action_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/spy_res_ic_search"/>
+
 
         </LinearLayout>
 

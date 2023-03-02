@@ -4,10 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import viacheslav.chugunov.spy.internal.data.EventStorage
+import viacheslav.chugunov.spy.internal.data.SpyEvent
+import viacheslav.chugunov.spy.internal.data.SpyEventType
 import viacheslav.chugunov.spy.internal.data.inject
 
 internal class SpyEventsViewModel private constructor(

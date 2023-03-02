@@ -17,6 +17,7 @@ abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fragment(),
     protected open val title: String by lazy { getString(R.string.spy_res_app_name) }
     protected open val showSearch: Boolean = false
     protected open val showDelete: Boolean = false
+    protected open val showFilter: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -33,17 +34,20 @@ abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? = inflater.inflate(layoutRes, container, false)
+
     override fun onStart() {
         super.onStart()
         controller?.setTitle(title)
         controller?.showSearchAction(showSearch)
         controller?.showDeleteAction(showDelete)
+        controller?.showFilterAction(showFilter)
     }
 
     override fun onStop() {
         super.onStop()
         controller?.showSearchAction(false)
         controller?.showDeleteAction(false)
+        controller?.showFilterAction(false)
     }
 
     override fun navigate(fragment: Fragment) {

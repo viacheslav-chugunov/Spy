@@ -1,5 +1,6 @@
 package viacheslav.chugunov.spy.internal.domain
 
-interface DeleteDialogController {
+interface DialogController {
     fun showDeleteDialog()
+    fun showFilterDialog()
 }
