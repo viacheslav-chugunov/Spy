@@ -114,6 +114,7 @@ internal class SpyActivity : AppCompatActivity(), SpyActionController {
             etSearch.isVisible = false
             ivDelete.isVisible = true
             ivFilter.isVisible = true
+            updateSearch()
         } else {
             super.onBackPressed()
         }
