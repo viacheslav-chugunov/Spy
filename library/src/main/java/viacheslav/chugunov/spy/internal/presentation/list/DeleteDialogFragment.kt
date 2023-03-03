@@ -22,6 +22,5 @@ class DeleteDialogFragment : BaseDialog(R.layout.spy_res_delete_dialog_fragment)
         }
         buttonDisagree.setOnClickListener { dismiss() }
     }
-
 }
 

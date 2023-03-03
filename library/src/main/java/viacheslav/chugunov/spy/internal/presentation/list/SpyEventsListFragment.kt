@@ -1,7 +1,10 @@
 package viacheslav.chugunov.spy.internal.presentation.list
 
 import android.os.Bundle
+import android.view.TextureView
 import android.view.View
+import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,9 +35,12 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_sp
     override val showDelete: Boolean = true
     override val showFilter: Boolean = true
 
+    private lateinit var tvNotEvents: TextView
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[SpyEventsViewModel::class.java]
+        tvNotEvents = view.findViewById(R.id.tv_not_events_list)
         val recycler = view.findViewById<RecyclerView>(R.id.recycler_list)
         adapter = SpyEventsAdapter(listener = this)
         recycler.adapter = adapter
@@ -42,6 +48,7 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_sp
         lifecycleScope.launch {
             viewModel.allEventsFlow.collect { events ->
                 adapter.setEvents(events)
+                tvNotEvents.isVisible = events.isEmpty()
             }
         }
     }
@@ -65,6 +72,7 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_sp
         lifecycleScope.launch {
             viewModel.allEventsFlow.collect { events ->
                 adapter.setEvents(events)
+                tvNotEvents.isVisible = events.isEmpty()
             }
         }
     }
