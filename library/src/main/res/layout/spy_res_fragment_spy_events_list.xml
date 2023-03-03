@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,9 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:text="You have not events yet"
+        android:text="@string/you_have_not_events_yet"
+        android:textColor="@color/spy_res_black"
         android:textSize="30sp"
-        android:layout_centerInParent="true"/>
+        android:layout_gravity="center"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_list"
@@ -22,4 +23,4 @@
         tools:listitem="@layout/spy_res_item_spy_event_info"/>
 
 
-</RelativeLayout>
+</FrameLayout>

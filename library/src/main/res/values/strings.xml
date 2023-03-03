@@ -11,4 +11,5 @@
     <string name="info_events">Info events</string>
     <string name="warning_events">Warning events</string>
     <string name="error_events">Error events</string>
+    <string name="you_have_not_events_yet">You have not events yet</string>
 </resources>
