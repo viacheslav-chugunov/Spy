@@ -7,10 +7,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import viacheslav.chugunov.spy.internal.data.EventStorage
-import viacheslav.chugunov.spy.internal.data.SpyEvent
-import viacheslav.chugunov.spy.internal.data.SpyEventType
 import viacheslav.chugunov.spy.internal.data.inject
-import viacheslav.chugunov.spy.internal.presentation.ConditionViewTypeAdapter
+import viacheslav.chugunov.spy.internal.data.ConditionViewTypeAdapter
 
 internal class SpyEventsViewModel private constructor(
     application: Application,

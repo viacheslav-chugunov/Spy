@@ -6,7 +6,7 @@ import android.widget.CheckBox
 import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.presentation.BaseDialog
 
-class FilterDialogFragment : BaseDialog(R.layout.spy_res_dialog_fragment_filter_events) {
+internal class FilterDialogFragment : BaseDialog(R.layout.spy_res_dialog_fragment_filter_events) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

@@ -31,11 +31,23 @@ class Spy internal constructor(
 
     fun success(message: String, vararg meta: SpyMeta) = log(message, SpyEventType.SUCCESS, *meta)
 
+    fun success(message: String, meta: Collection<SpyMeta>) = success(message, *meta.toTypedArray())
+
     fun info(message: String, vararg meta: SpyMeta) = log(message, SpyEventType.INFO, *meta)
+
+    fun info(message: String, meta: Collection<SpyMeta>) = info(message, *meta.toTypedArray())
 
     fun warning(message: String, vararg meta: SpyMeta) = log(message, SpyEventType.WARNING, *meta)
 
+    fun warning(message: String, meta: Collection<SpyMeta>) = warning(message, *meta.toTypedArray())
+
     fun error(message: String, vararg meta: SpyMeta) = log(message, SpyEventType.ERROR, *meta)
+
+    fun error(message: String, meta: Collection<SpyMeta>) = error(message, *meta.toTypedArray())
+
+    fun error(error: Throwable, vararg meta: SpyMeta) = error(error.toString(), *meta)
+
+    fun error(error: Throwable, meta: Collection<SpyMeta>) = error(error, *meta.toTypedArray())
 
     private fun log(message: String, type: SpyEventType, vararg meta: SpyMeta) {
         notifications.showEventNotification(type, message)

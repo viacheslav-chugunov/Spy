@@ -6,7 +6,7 @@ import android.widget.TextView
 import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.presentation.BaseDialog
 
-class DeleteDialogFragment : BaseDialog(R.layout.spy_res_dialog_fragment_delete) {
+internal class DeleteDialogFragment : BaseDialog(R.layout.spy_res_dialog_fragment_delete) {
 
     private lateinit var buttonAgree: TextView
     private lateinit var buttonDisagree: TextView

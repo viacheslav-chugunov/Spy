@@ -11,7 +11,7 @@ import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.domain.SpyActionController
 import viacheslav.chugunov.spy.internal.domain.SpyNavigation
 
-abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fragment(),
+internal abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fragment(),
     SpyNavigation {
     private var controller: SpyActionController? = null
     protected open val title: String by lazy { getString(R.string.spy_res_app_name) }

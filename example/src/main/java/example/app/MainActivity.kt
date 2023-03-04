@@ -51,5 +51,6 @@ class MainActivity : AppCompatActivity() {
         btnErrorNotification.setOnClickListener {
             spy.error("Test error notification")
         }
+
     }
 }

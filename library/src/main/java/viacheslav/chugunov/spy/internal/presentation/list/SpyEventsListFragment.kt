@@ -1,7 +1,6 @@
 package viacheslav.chugunov.spy.internal.presentation.list
 
 import android.os.Bundle
-import android.view.TextureView
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -16,7 +15,6 @@ import viacheslav.chugunov.spy.internal.domain.DialogController
 import viacheslav.chugunov.spy.internal.domain.DialogListener
 import viacheslav.chugunov.spy.internal.domain.SearchViewVisitor
 import viacheslav.chugunov.spy.internal.presentation.BaseFragment
-import viacheslav.chugunov.spy.internal.presentation.ConditionViewTypeAdapter
 import viacheslav.chugunov.spy.internal.presentation.detail.SpyEventDetailFragment
 
 internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_spy_events_list),

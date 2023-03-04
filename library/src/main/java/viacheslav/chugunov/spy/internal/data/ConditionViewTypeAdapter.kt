@@ -1,8 +1,8 @@
-package viacheslav.chugunov.spy.internal.presentation
+package viacheslav.chugunov.spy.internal.data
 
 import viacheslav.chugunov.spy.internal.presentation.list.SpyEventsAdapter
 
-class ConditionViewTypeAdapter {
+internal class ConditionViewTypeAdapter {
 
     val map = mutableMapOf(
         SpyEventsAdapter.ViewType.SUCCESS to true,
