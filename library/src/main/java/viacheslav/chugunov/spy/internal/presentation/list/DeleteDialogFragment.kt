@@ -2,14 +2,14 @@ package viacheslav.chugunov.spy.internal.presentation.list
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.AppCompatButton
+import android.widget.TextView
 import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.presentation.BaseDialog
 
-class DeleteDialogFragment : BaseDialog(R.layout.spy_res_delete_dialog_fragment) {
+class DeleteDialogFragment : BaseDialog(R.layout.spy_res_dialog_fragment_delete) {
 
-    private lateinit var buttonAgree: AppCompatButton
-    private lateinit var buttonDisagree: AppCompatButton
+    private lateinit var buttonAgree: TextView
+    private lateinit var buttonDisagree: TextView
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

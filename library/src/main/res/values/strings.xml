@@ -3,13 +3,13 @@
     <string name="spy_res_spy_notification_title">Go to Spy</string>
     <string name="spy_res_spy_notification_description">Click here to show spy events</string>
     <string name="spy_res_search">Search</string>
-    <string name="do_you_really_want_to_delete_all_events">Do you really want to delete all events?</string>
-    <string name="agree">Agree</string>
-    <string name="disagree">Disagree</string>
-    <string name="filter_events_by">Filter events by:</string>
-    <string name="success_events">Success events</string>
-    <string name="info_events">Info events</string>
-    <string name="warning_events">Warning events</string>
-    <string name="error_events">Error events</string>
-    <string name="you_have_not_events_yet">You have not events yet</string>
+    <string name="spy_res_do_you_really_want_to_delete_all_events">Do you really want to delete all events?</string>
+    <string name="spy_res_delete">Delete</string>
+    <string name="spy_res_cancel">Cancel</string>
+    <string name="spy_res_configure_filters_below">Configure the filters below to see only specific events</string>
+    <string name="spy_res_success">Success</string>
+    <string name="spy_res_info">Info</string>
+    <string name="spy_res_warning">Warning</string>
+    <string name="spy_res_error">Error</string>
+    <string name="spy_res_there_is_nothing_here_yet">There is nothing here yet, add at least one event to see information about it</string>
 </resources>

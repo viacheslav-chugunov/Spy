@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/spy_res_bottom_sheet_background"
+    android:padding="16dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_delete_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/spy_res_do_you_really_want_to_delete_all_events"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textColor="@color/spy_res_black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            style="@style/SpyResTextButton"
+            android:id="@+id/b_disagree_delete_dialog"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:layout_height="wrap_content"
+            android:text="@string/spy_res_cancel" />
+
+        <TextView
+            style="@style/SpyResTextButton"
+            android:id="@+id/b_agree_delete_dialog"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:layout_height="wrap_content"
+            android:text="@string/spy_res_delete" />
+
+    </LinearLayout>
+
+</LinearLayout>

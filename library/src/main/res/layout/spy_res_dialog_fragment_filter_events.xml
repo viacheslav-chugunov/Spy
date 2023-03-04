@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/spy_res_bottom_sheet_background"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_filter_events"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/spy_res_configure_filters_below"
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/cb_success"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/spy_res_black"
+        android:checked="true"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_success_sort"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_success_sort" />
+
+    <CheckBox
+        android:id="@+id/cb_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/spy_res_black"
+        android:checked="true"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_info_sort"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_info_sort" />
+
+    <CheckBox
+        android:id="@+id/cb_warning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/spy_res_black"
+        android:checked="true"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_warning_sort"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_warning_sort" />
+
+    <CheckBox
+        android:id="@+id/cb_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/spy_res_black"
+        android:checked="true"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_error_sort"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_error_sort" />
+
+    <TextView
+        android:id="@+id/tv_success_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/spy_res_success"
+        android:textColor="@color/cardview_dark_background"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_info_sort"
+        app:layout_constraintStart_toEndOf="@+id/cb_success"
+        app:layout_constraintTop_toBottomOf="@id/tv_filter_events" />
+
+    <TextView
+        android:id="@+id/tv_info_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/spy_res_info"
+        android:textColor="@color/cardview_dark_background"
+        app:layout_constraintBottom_toTopOf="@id/tv_warning_sort"
+        app:layout_constraintStart_toEndOf="@+id/cb_info"
+        app:layout_constraintTop_toBottomOf="@id/tv_success_sort" />
+
+    <TextView
+        android:id="@+id/tv_warning_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/spy_res_warning"
+        android:textColor="@color/cardview_dark_background"
+        app:layout_constraintBottom_toTopOf="@id/tv_error_sort"
+        app:layout_constraintStart_toEndOf="@+id/cb_warning"
+        app:layout_constraintTop_toBottomOf="@id/tv_info_sort" />
+
+    <TextView
+        android:id="@+id/tv_error_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/spy_res_error"
+        android:textColor="@color/cardview_dark_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cb_error"
+        app:layout_constraintTop_toBottomOf="@id/tv_warning_sort" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

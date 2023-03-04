@@ -7,12 +7,13 @@
 
     <TextView
         android:id="@+id/tv_not_events_list"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:visibility="gone"
-        android:text="@string/you_have_not_events_yet"
+        android:text="@string/spy_res_there_is_nothing_here_yet"
         android:textColor="@color/spy_res_black"
-        android:textSize="30sp"
+        android:textSize="16sp"
         android:layout_gravity="center"/>
 
     <androidx.recyclerview.widget.RecyclerView

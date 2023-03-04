@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.Spy" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+    <style name="Theme.Spy" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/spy_res_white</item>
         <item name="colorPrimaryVariant">@color/spy_res_white</item>
         <item name="colorOnPrimary">@color/spy_res_black</item>
@@ -18,4 +18,14 @@
     <style name="Theme.Spy.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Spy.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="SpyResTextButton">
+        <item name="android:background">@drawable/spy_res_shape_button</item>
+        <item name="android:textColor">@color/spy_res_white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Button</item>
+    </style>
 </resources>

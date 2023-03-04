@@ -41,7 +41,7 @@
                 android:layout_weight="1"
                 android:visibility="gone"
                 android:textColor="@color/spy_res_black"
-                android:textColorHint="@color/spy_res_gray_300"
+                android:textColorHint="@color/spy_res_gray_400"
                 android:background="@android:color/transparent"
                 android:hint="@string/spy_res_search"
                 android:layout_height="wrap_content"/>
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/spy_res__ic_delete"/>
+                android:src="@drawable/spy_res_ic_delete"/>
 
             <ImageView
                 android:id="@+id/action_search"
