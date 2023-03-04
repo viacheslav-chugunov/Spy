@@ -48,8 +48,8 @@ afterEvaluate {
                 from components.release
 
                 groupId = 'com.github.viacheslav-chugunov'
-                artifactId = 'spy-no-op'
-                version = '1.0.1-alpha-no-op'
+                artifactId = 'spy'
+                version = '1.0.2-alpha-no-op'
             }
         }
     }
