@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-//    id 'maven-publish'
+    id 'maven-publish'
 }
 
 android {
@@ -40,17 +40,17 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
-//
-//afterEvaluate {
-//    publishing {
-//        publications {
-//            release(MavenPublication) {
-//                from components.release
-//
-//                groupId = 'com.github.viacheslav-chugunov'
-//                artifactId = 'spy'
-//                version = '1.0.0-alpha-no-op'
-//            }
-//        }
-//    }
-//}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = 'com.github.viacheslav-chugunov'
+                artifactId = 'spy'
+                version = '1.0.4-alpha-no-op'
+            }
+        }
+    }
+}
