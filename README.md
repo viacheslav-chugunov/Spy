@@ -6,6 +6,25 @@ Spy was created to track events within the application, not only by developers, 
 
 ## Setup
 
+Add it in your root build.gradle at the end of repositories:
+
+```gradle
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+Add the dependency:
+
+```
+dependencies {
+    debugImplementation 'com.github.viacheslav-chugunov:Spy:1.0.4-alpha-no-op'
+    releaseImplementation 'com.github.viacheslav-chugunov:Spy:1.0.4-alpha-no-op'
+}
+```
+
 If your application has target sdk 33 or larger, then notification permission will be required. The code below will allow to request this permission.
 
 ```kotlin
