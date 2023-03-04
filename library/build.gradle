@@ -58,7 +58,7 @@ afterEvaluate {
 
                 groupId = 'com.github.viacheslav-chugunov'
                 artifactId = 'spy'
-                version = '1.0.3-alpha'
+                version = '1.0.0-alpha'
             }
         }
     }
