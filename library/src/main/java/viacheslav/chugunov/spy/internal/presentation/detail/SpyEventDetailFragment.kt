@@ -20,7 +20,9 @@ internal class SpyEventDetailFragment : BaseFragment(R.layout.spy_res_fragment_s
         }
     }
 
-    override val title: String by lazy { event.message }
+    fun getTitle(): String {
+        return event.message
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

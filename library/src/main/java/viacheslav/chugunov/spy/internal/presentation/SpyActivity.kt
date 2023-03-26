@@ -1,102 +1,71 @@
 package viacheslav.chugunov.spy.internal.presentation
 
+import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import viacheslav.chugunov.spy.R
-import viacheslav.chugunov.spy.internal.domain.DialogController
-import viacheslav.chugunov.spy.internal.domain.SearchViewVisitor
-import viacheslav.chugunov.spy.internal.domain.SpyActionController
+import viacheslav.chugunov.spy.internal.domain.SpyNavigation
+import viacheslav.chugunov.spy.internal.domain.ToolbarController
+import viacheslav.chugunov.spy.internal.presentation.customview.ToolbarView
+import viacheslav.chugunov.spy.internal.presentation.detail.SpyEventDetailFragment
 import viacheslav.chugunov.spy.internal.presentation.list.SpyEventsListFragment
 
-internal class SpyActivity : AppCompatActivity(), SpyActionController {
-    private var isSearchMode: Boolean = false
-    private var searchEnabled: Boolean = false
+internal class SpyActivity : AppCompatActivity(), ToolbarController, SpyNavigation {
 
-    private val tvTitle by lazy { findViewById<TextView>(R.id.title) }
-    private val ivSearch by lazy { findViewById<ImageView>(R.id.action_search) }
-    private val etSearch by lazy { findViewById<EditText>(R.id.search_input) }
-    private val ivDelete by lazy { findViewById<ImageView>(R.id.action_delete) }
-    private val ivFilter by lazy { findViewById<ImageView>(R.id.action_filter) }
-
-    private val searchTextWatcher: TextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
-        override fun afterTextChanged(p0: Editable?) = Unit
-        override fun onTextChanged(newText: CharSequence?, p1: Int, p2: Int, p3: Int) =
-            updateSearch(newText?.toString() ?: "")
-    }
+    private val toolbar by lazy { findViewById<ToolbarView>(R.id.spy_toolbar) }
+    private var isFirstLaunch = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.spy_res_activity_spy)
+        val pref = getSharedPreferences("STORAGE", Context.MODE_PRIVATE)
+        isFirstLaunch = pref.getBoolean("isFirstLaunch", true)
         if (savedInstanceState == null) {
             val spyEventsListFragment = SpyEventsListFragment.newInstance()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.frag_container, spyEventsListFragment)
                 .commit()
         }
-        ivSearch.setOnClickListener {
-            isSearchMode = true
-            tvTitle.isVisible = false
-            etSearch.isVisible = true
-            ivSearch.isVisible = false
-            ivFilter.isVisible = false
-            ivDelete.isVisible = false
-            etSearch.setText("")
-            etSearch.requestFocus()
-            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(etSearch, InputMethodManager.SHOW_IMPLICIT)
-        }
-        ivDelete.setOnClickListener {
-            supportFragmentManager.fragments.getOrNull(0)?.let {
-                if (it is DialogController) it.showDeleteDialog()
-            }
-        }
-        ivFilter.setOnClickListener {
-            supportFragmentManager.fragments.getOrNull(0)?.let {
-                if (it is DialogController) it.showFilterDialog()
-            }
-        }
+    }
 
-        etSearch.addTextChangedListener(searchTextWatcher)
+    override fun onStart() {
+        super.onStart()
+        if (isFirstLaunch) {
+            (supportFragmentManager.fragments.getOrNull(0) as SpyEventsListFragment).onAgreeButtonClick()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        isFirstLaunch = false
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        etSearch.removeTextChangedListener(searchTextWatcher)
+        toolbar.removeTextChangedListener()
+        val pref = getSharedPreferences("STORAGE", Context.MODE_PRIVATE)
+        pref.edit().putBoolean("isFirstLaunch", isFirstLaunch).apply()
     }
 
-    override fun setTitle(title: String) {
-        tvTitle.isVisible = true
-        etSearch.isVisible = false
-        tvTitle.text = title
-    }
-
-    override fun showSearchAction(show: Boolean) {
-        searchEnabled = show
-        isSearchMode = false
-        ivSearch.isVisible = show
-        etSearch.isVisible = false
-        if (!show) {
-            val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(etSearch.windowToken, 0)
+    override fun setDataToolbar(message: String?, callback: ToolbarView.Callback?) {
+        toolbar.setTitle(message ?: getString(R.string.spy_res_app_name))
+        when (supportFragmentManager.fragments.getOrNull(0)) {
+            is SpyEventsListFragment -> {
+                toolbar.apply {
+                    showToolbarActions(true)
+                    setCallback(callback)
+                }
+            }
+            is SpyEventDetailFragment -> {
+                hideToolbarActions()
+            }
         }
     }
 
-    override fun showDeleteAction(show: Boolean) {
-        ivDelete.visibility = if (!show) View.GONE else View.VISIBLE
-    }
-
-    override fun showFilterAction(show: Boolean) {
-        ivFilter.visibility = if (!show) View.GONE else View.VISIBLE
+    override fun hideToolbarActions() {
+        toolbar.showToolbarActions(false)
     }
 
     override fun navigate(fragment: Fragment) {
@@ -107,24 +76,8 @@ internal class SpyActivity : AppCompatActivity(), SpyActionController {
     }
 
     override fun onBackPressed() {
-        if (searchEnabled && isSearchMode) {
-            isSearchMode = false
-            ivSearch.isVisible = true
-            tvTitle.isVisible = true
-            etSearch.isVisible = false
-            ivDelete.isVisible = true
-            ivFilter.isVisible = true
-            updateSearch()
-        } else {
+        if (!toolbar.backFromEditText()) {
             super.onBackPressed()
-        }
-    }
-
-    private fun updateSearch(query: String = "") {
-        supportFragmentManager.fragments.forEach { fragment ->
-            if (fragment is SearchViewVisitor) {
-                fragment.onSearchChanged(query)
-            }
         }
     }
 }

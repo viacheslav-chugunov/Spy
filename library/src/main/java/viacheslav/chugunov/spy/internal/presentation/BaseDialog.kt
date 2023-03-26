@@ -11,8 +11,10 @@ import androidx.annotation.LayoutRes
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import viacheslav.chugunov.spy.internal.domain.DialogListener
+import viacheslav.chugunov.spy.internal.presentation.customview.ToolbarView
 
-internal abstract class BaseDialog(@LayoutRes private val idLayoutRes: Int) : BottomSheetDialogFragment() {
+internal abstract class BaseDialog(@LayoutRes private val idLayoutRes: Int) :
+    BottomSheetDialogFragment() {
     protected open var listener: DialogListener? = null
 
     override fun onAttach(context: Context) {
