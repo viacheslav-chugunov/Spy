@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import viacheslav.chugunov.spy.R
+import viacheslav.chugunov.spy.internal.SpyApplication
 import viacheslav.chugunov.spy.internal.domain.SpyNavigation
 import viacheslav.chugunov.spy.internal.domain.ToolbarController
 import viacheslav.chugunov.spy.internal.presentation.customview.ToolbarView
-import viacheslav.chugunov.spy.internal.presentation.detail.SpyEventDetailFragment
 import viacheslav.chugunov.spy.internal.presentation.list.SpyEventsListFragment
 
 internal class SpyActivity : AppCompatActivity(), ToolbarController, SpyNavigation {
@@ -28,6 +28,9 @@ internal class SpyActivity : AppCompatActivity(), ToolbarController, SpyNavigati
 
     override fun onStart() {
         super.onStart()
+        if((application as SpyApplication).getIsFirstLaunch()){
+            (supportFragmentManager.fragments.getOrNull(0) as SpyEventsListFragment).onAgreeButtonClick()
+        }
         toolbar.resetTitleVisibility()
     }
 

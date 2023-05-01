@@ -1,14 +1,12 @@
 package viacheslav.chugunov.spy.internal.presentation.customview
 
 import android.content.Context
-import android.os.Build
-import android.os.Parcel
+import android.os.Bundle
 import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.util.Log
-import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -16,7 +14,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.util.forEach
 import androidx.core.view.isVisible
 import viacheslav.chugunov.spy.R
 
@@ -92,17 +89,7 @@ class ToolbarView @JvmOverloads constructor(
         }
 
         ivSearch.setOnClickListener {
-            isSearchMode = true
-            tvTitle.isVisible = false
-            etSearch.isVisible = true
-            ivSearch.isVisible = false
-            ivFilter.isVisible = false
-            ivDelete.isVisible = false
-            etSearch.setText("")
-            etSearch.requestFocus()
-            val imm =
-                context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(etSearch, InputMethodManager.SHOW_IMPLICIT)
+            onIvSearchClicked("")
         }
         ivDelete.setOnClickListener {
             callback?.showDeleteDialog()
@@ -111,6 +98,20 @@ class ToolbarView @JvmOverloads constructor(
             callback?.showFilterDialog()
         }
         etSearch.addTextChangedListener(searchTextWatcher)
+    }
+
+    private fun onIvSearchClicked(text: String) {
+        isSearchMode = true
+        tvTitle.isVisible = false
+        etSearch.isVisible = true
+        ivSearch.isVisible = false
+        ivFilter.isVisible = false
+        ivDelete.isVisible = false
+        etSearch.setText(text)
+        etSearch.requestFocus()
+        val imm =
+            context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(etSearch, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun updateSearch(query: String = "") {
@@ -140,5 +141,21 @@ class ToolbarView @JvmOverloads constructor(
 
     fun showFilterAction(show: Boolean) {
         ivFilter.isVisible = show
+    }
+
+    override fun onSaveInstanceState(): Parcelable {
+        val bundle = Bundle()
+        bundle.putString("query", etSearch.text.toString())
+        bundle.putParcelable("parcelableState", super.onSaveInstanceState())
+        return bundle
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        val bundle = state as Bundle
+        val query = bundle.getString("query")
+        if(!query.isNullOrBlank()){
+            onIvSearchClicked(query)
+        }
+        super.onRestoreInstanceState(bundle.getParcelable("parcelableState"))
     }
 }
