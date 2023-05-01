@@ -1,8 +1,6 @@
 package viacheslav.chugunov.spy.internal.presentation
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import viacheslav.chugunov.spy.R
@@ -15,69 +13,59 @@ import viacheslav.chugunov.spy.internal.presentation.list.SpyEventsListFragment
 internal class SpyActivity : AppCompatActivity(), ToolbarController, SpyNavigation {
 
     private val toolbar by lazy { findViewById<ToolbarView>(R.id.spy_toolbar) }
-    private var isFirstLaunch = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.spy_res_activity_spy)
-        val pref = getSharedPreferences("STORAGE", Context.MODE_PRIVATE)
-        isFirstLaunch = pref.getBoolean("isFirstLaunch", true)
         if (savedInstanceState == null) {
             val spyEventsListFragment = SpyEventsListFragment.newInstance()
+            toolbar.setCallback(spyEventsListFragment)
             supportFragmentManager.beginTransaction()
                 .replace(R.id.frag_container, spyEventsListFragment)
                 .commit()
-        }
+        } else toolbar.setCallback(supportFragmentManager.fragments[0] as ToolbarView.Callback)
     }
 
     override fun onStart() {
         super.onStart()
-        if (isFirstLaunch) {
-            (supportFragmentManager.fragments.getOrNull(0) as SpyEventsListFragment).onAgreeButtonClick()
-        }
+        toolbar.resetTitleVisibility()
     }
 
     override fun onStop() {
         super.onStop()
-        isFirstLaunch = false
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
         toolbar.removeTextChangedListener()
-        val pref = getSharedPreferences("STORAGE", Context.MODE_PRIVATE)
-        pref.edit().putBoolean("isFirstLaunch", isFirstLaunch).apply()
-    }
-
-    override fun setDataToolbar(message: String?, callback: ToolbarView.Callback?) {
-        toolbar.setTitle(message ?: getString(R.string.spy_res_app_name))
-        when (supportFragmentManager.fragments.getOrNull(0)) {
-            is SpyEventsListFragment -> {
-                toolbar.apply {
-                    showToolbarActions(true)
-                    setCallback(callback)
-                }
-            }
-            is SpyEventDetailFragment -> {
-                hideToolbarActions()
-            }
-        }
-    }
-
-    override fun hideToolbarActions() {
-        toolbar.showToolbarActions(false)
     }
 
     override fun navigate(fragment: Fragment) {
+        if(fragment is ToolbarView.Callback) {
+            toolbar.setCallback(fragment)
+        }
         supportFragmentManager.beginTransaction()
             .replace(R.id.frag_container, fragment)
             .addToBackStack(null)
             .commit()
+        toolbar.resetTitleVisibility()
     }
 
     override fun onBackPressed() {
         if (!toolbar.backFromEditText()) {
             super.onBackPressed()
         }
+    }
+
+    override fun setTitleToolBar(title: String) {
+        toolbar.setTitle(title)
+    }
+
+    override fun showDeleteAction(show: Boolean) {
+        toolbar.showDeleteAction(show)
+    }
+
+    override fun showFilterAction(show: Boolean) {
+        toolbar.showFilterAction(show)
+    }
+
+    override fun showSearchAction(show: Boolean) {
+        toolbar.showSearchAction(show)
     }
 }

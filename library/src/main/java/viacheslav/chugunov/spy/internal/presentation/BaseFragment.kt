@@ -19,6 +19,11 @@ internal abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fr
     private var controller: ToolbarController? = null
     private var navigator: SpyNavigation? = null
 
+    protected open val title: String by lazy { getString(R.string.spy_res_app_name) }
+    protected open val showSearch: Boolean = false
+    protected open val showDelete: Boolean = false
+    protected open val showFilter: Boolean = false
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         controller = context as ToolbarController
@@ -39,15 +44,17 @@ internal abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fr
 
     override fun onStart() {
         super.onStart()
-        when (this) {
-            is SpyEventsListFragment -> controller?.setDataToolbar(callback = this)
-            is SpyEventDetailFragment -> controller?.setDataToolbar(message = this.getTitle())
-        }
+        controller?.setTitleToolBar(title)
+        controller?.showSearchAction(showSearch)
+        controller?.showDeleteAction(showDelete)
+        controller?.showFilterAction(showFilter)
     }
 
     override fun onStop() {
         super.onStop()
-        controller?.hideToolbarActions()
+        controller?.showDeleteAction(false)
+        controller?.showFilterAction(false)
+        controller?.showSearchAction(false)
     }
 
     override fun navigate(fragment: Fragment) {

@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.data.SpyEvent
-import viacheslav.chugunov.spy.internal.domain.DialogController
 import viacheslav.chugunov.spy.internal.domain.DialogListener
-import viacheslav.chugunov.spy.internal.domain.SearchViewVisitor
 import viacheslav.chugunov.spy.internal.presentation.BaseFragment
 import viacheslav.chugunov.spy.internal.presentation.customview.ToolbarView
 import viacheslav.chugunov.spy.internal.presentation.detail.SpyEventDetailFragment
@@ -24,6 +22,10 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_sp
     companion object {
         fun newInstance() = SpyEventsListFragment()
     }
+
+    override val showDelete = true
+    override val showFilter = true
+    override val showSearch = true
 
     private lateinit var adapter: SpyEventsAdapter
 
@@ -71,7 +73,6 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_sp
     }
 
     override fun provideFilters(): Map<Int, Boolean> = viewModel.getMap()
-
 
     override fun showDeleteDialog() {
         DeleteDialogFragment().show(childFragmentManager, null)

@@ -1,12 +1,14 @@
 package viacheslav.chugunov.spy.internal.presentation.customview
 
 import android.content.Context
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.util.Log
+import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -14,6 +16,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.util.forEach
 import androidx.core.view.isVisible
 import viacheslav.chugunov.spy.R
 
@@ -30,8 +33,6 @@ class ToolbarView @JvmOverloads constructor(
     }
 
     private var callback: Callback? = null
-
-    private var title = context.getString(R.string.spy_res_app_name)
 
     private var isSearchMode: Boolean = false
     private var searchEnabled: Boolean = false
@@ -50,19 +51,12 @@ class ToolbarView @JvmOverloads constructor(
         fun onSearchChanged(query: String)
     }
 
+    fun setTitle(title: String) {
+        tvTitle.text = title
+    }
+
     fun setCallback(callback: Callback?) {
         this.callback = callback
-    }
-
-    fun setTitle(title: String) {
-        this.title = title
-    }
-
-    fun showToolbarActions(show: Boolean) {
-        setTitleSettings(title)
-        showSearchAction(show)
-        showDeleteAction(show)
-        showFilterAction(show)
     }
 
     fun removeTextChangedListener() {
@@ -96,6 +90,7 @@ class ToolbarView @JvmOverloads constructor(
             override fun onTextChanged(newText: CharSequence?, p1: Int, p2: Int, p3: Int) =
                 updateSearch(newText?.toString() ?: "")
         }
+
         ivSearch.setOnClickListener {
             isSearchMode = true
             tvTitle.isVisible = false
@@ -122,13 +117,12 @@ class ToolbarView @JvmOverloads constructor(
         callback?.onSearchChanged(query)
     }
 
-    private fun setTitleSettings(title: String) {
+    fun resetTitleVisibility() {
         tvTitle.isVisible = true
         etSearch.isVisible = false
-        tvTitle.text = title
     }
 
-    private fun showSearchAction(show: Boolean) {
+    fun showSearchAction(show: Boolean) {
         searchEnabled = show
         isSearchMode = false
         ivSearch.isVisible = show
@@ -140,11 +134,11 @@ class ToolbarView @JvmOverloads constructor(
         }
     }
 
-    private fun showDeleteAction(show: Boolean) {
+    fun showDeleteAction(show: Boolean) {
         ivDelete.isVisible = show
     }
 
-    private fun showFilterAction(show: Boolean) {
+    fun showFilterAction(show: Boolean) {
         ivFilter.isVisible = show
     }
 }
