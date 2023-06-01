@@ -1,10 +1,13 @@
 package viacheslav.chugunov.spy.internal.presentation
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
+import viacheslav.chugunov.spy.Launcher
 import viacheslav.chugunov.spy.R
-import viacheslav.chugunov.spy.internal.SpyApplication
 import viacheslav.chugunov.spy.internal.domain.SpyNavigation
 import viacheslav.chugunov.spy.internal.domain.ToolbarController
 import viacheslav.chugunov.spy.internal.presentation.customview.ToolbarView
@@ -17,37 +20,62 @@ internal class SpyActivity : AppCompatActivity(), ToolbarController, SpyNavigati
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.spy_res_activity_spy)
+        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, false)
         if (savedInstanceState == null) {
             val spyEventsListFragment = SpyEventsListFragment.newInstance()
-            toolbar.setCallback(spyEventsListFragment)
             supportFragmentManager.beginTransaction()
                 .replace(R.id.frag_container, spyEventsListFragment)
                 .commit()
-        } else toolbar.setCallback(supportFragmentManager.fragments[0] as ToolbarView.Callback)
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        if((application as SpyApplication).getIsFirstLaunch()){
-            (supportFragmentManager.fragments.getOrNull(0) as SpyEventsListFragment).onAgreeButtonClick()
+        if (Launcher.getIsFirstLaunch()) {
+            supportFragmentManager.fragments.getOrNull(0)?.let {
+                if (it is SpyEventsListFragment) {
+                    it.onAgreeButtonClick()
+                }
+            }
         }
-        toolbar.resetTitleVisibility()
     }
 
-    override fun onStop() {
-        super.onStop()
-        toolbar.removeTextChangedListener()
+    override fun onDestroy() {
+        super.onDestroy()
+        supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks)
     }
 
     override fun navigate(fragment: Fragment) {
-        if(fragment is ToolbarView.Callback) {
-            toolbar.setCallback(fragment)
-        }
         supportFragmentManager.beginTransaction()
             .replace(R.id.frag_container, fragment)
             .addToBackStack(null)
             .commit()
-        toolbar.resetTitleVisibility()
+    }
+
+    private val fragmentLifecycleCallbacks = object : FragmentLifecycleCallbacks() {
+        override fun onFragmentViewCreated(
+            fm: FragmentManager,
+            f: Fragment,
+            v: View,
+            savedInstanceState: Bundle?,
+        ) {
+            super.onFragmentViewCreated(fm, f, v, savedInstanceState)
+            if (f is ToolbarView.Callback) {
+                toolbar.registerCallback(f)
+            }
+        }
+
+        override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
+            super.onFragmentStarted(fm, f)
+            toolbar.resetViewVisibility()
+        }
+
+        override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
+            super.onFragmentViewDestroyed(fm, f)
+            if (f is ToolbarView.Callback) {
+                toolbar.unregisterCallback(f)
+            }
+        }
     }
 
     override fun onBackPressed() {

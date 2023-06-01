@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationCompat
+import viacheslav.chugunov.spy.Launcher
 import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.presentation.SpyActivity
 
@@ -31,16 +32,19 @@ internal class NotificationFactory(
             notificationId = 1
         )
 
-    fun showSpyNotification() =
-        showNotification(
-            title = applicationContext.getString(R.string.spy_res_spy_notification_title),
-            description = applicationContext.getString(R.string.spy_res_spy_notification_description),
-            iconRes = R.drawable.spy_res_ic_open_spy,
-            priority = NotificationCompat.PRIORITY_MIN,
-            autoCancel = false,
-            ongoing = true,
-            notificationId = 0
-        )
+    fun showSpyNotification() {
+        if (Launcher.isCanShowNotification()) {
+            showNotification(
+                title = applicationContext.getString(R.string.spy_res_spy_notification_title),
+                description = applicationContext.getString(R.string.spy_res_spy_notification_description),
+                iconRes = R.drawable.spy_res_ic_open_spy,
+                priority = NotificationCompat.PRIORITY_MIN,
+                autoCancel = false,
+                ongoing = true,
+                notificationId = 0
+            )
+        }
+    }
 
     private fun showNotification(
         title: String,

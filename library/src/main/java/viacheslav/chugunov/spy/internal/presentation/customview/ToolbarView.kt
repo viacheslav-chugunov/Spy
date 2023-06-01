@@ -3,10 +3,7 @@ package viacheslav.chugunov.spy.internal.presentation.customview
 import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -29,18 +26,15 @@ class ToolbarView @JvmOverloads constructor(
         initializeListeners()
     }
 
-    private var callback: Callback? = null
+    private val actionExecutor = ToolbarActionsExecutor()
 
-    private var isSearchMode: Boolean = false
-    private var searchEnabled: Boolean = false
+    private var textSearcher: TextSearcher? = null
 
     private lateinit var tvTitle: TextView
     private lateinit var ivSearch: ImageView
     private lateinit var etSearch: EditText
     private lateinit var ivDelete: ImageView
     private lateinit var ivFilter: ImageView
-
-    private lateinit var searchTextWatcher: TextWatcher
 
     interface Callback {
         fun showDeleteDialog()
@@ -52,27 +46,14 @@ class ToolbarView @JvmOverloads constructor(
         tvTitle.text = title
     }
 
-    fun setCallback(callback: Callback?) {
-        this.callback = callback
-    }
-
-    fun removeTextChangedListener() {
-        etSearch.removeTextChangedListener(searchTextWatcher)
-    }
-
-    fun backFromEditText(): Boolean {
-        if (searchEnabled && isSearchMode) {
-            isSearchMode = false
-            ivSearch.isVisible = true
-            tvTitle.isVisible = true
-            etSearch.isVisible = false
-            ivDelete.isVisible = true
-            ivFilter.isVisible = true
-            updateSearch()
-            return true
+    fun backFromEditText(): Boolean =
+        if (textSearcher?.backFromEditMode()==true) {
+            etSearch.setText("")
+            resetViewVisibility()
+            true
+        } else {
+            false
         }
-        return false
-    }
 
     private fun initializeListeners() {
         tvTitle = findViewById(R.id.title)
@@ -81,33 +62,29 @@ class ToolbarView @JvmOverloads constructor(
         ivDelete = findViewById(R.id.action_delete)
         ivSearch = findViewById(R.id.action_search)
 
-        searchTextWatcher = object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
-            override fun afterTextChanged(p0: Editable?) = Unit
-            override fun onTextChanged(newText: CharSequence?, p1: Int, p2: Int, p3: Int) =
-                updateSearch(newText?.toString() ?: "")
-        }
-
         ivSearch.setOnClickListener {
-            onIvSearchClicked("")
+            onIvSearchClicked()
         }
         ivDelete.setOnClickListener {
-            callback?.showDeleteDialog()
+            actionExecutor.executeTask {
+             it.showDeleteDialog()
+            }
         }
         ivFilter.setOnClickListener {
-            callback?.showFilterDialog()
+            actionExecutor.executeTask {
+                it.showFilterDialog()
+            }
         }
-        etSearch.addTextChangedListener(searchTextWatcher)
     }
 
-    private fun onIvSearchClicked(text: String) {
-        isSearchMode = true
+    private fun onIvSearchClicked() {
+        textSearcher?.showSearchMode(true)
         tvTitle.isVisible = false
         etSearch.isVisible = true
         ivSearch.isVisible = false
         ivFilter.isVisible = false
         ivDelete.isVisible = false
-        etSearch.setText(text)
+        etSearch.setText(textSearcher!!.getQuery())
         etSearch.requestFocus()
         val imm =
             context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -115,17 +92,36 @@ class ToolbarView @JvmOverloads constructor(
     }
 
     private fun updateSearch(query: String = "") {
-        callback?.onSearchChanged(query)
+        actionExecutor.executeTask {
+            it.onSearchChanged(query)
+        }
     }
 
-    fun resetTitleVisibility() {
-        tvTitle.isVisible = true
-        etSearch.isVisible = false
+    fun registerCallback(callback: Callback) {
+        actionExecutor.registerCallback(callback)
+        textSearcher = TextSearcher(::updateSearch)
+        etSearch.addTextChangedListener(textSearcher?.searchTextWatcher)
+        callback.onSearchChanged("")
+        resetViewVisibility()
+    }
+
+    fun unregisterCallback(callback: Callback) {
+        actionExecutor.unregisterCallback(callback)
+        etSearch.removeTextChangedListener(textSearcher?.searchTextWatcher)
+        textSearcher=null
+        resetViewVisibility()
+    }
+
+    fun resetViewVisibility() {
+        tvTitle.isVisible = textSearcher?.getQuery()?.isEmpty() ?: true
+        etSearch.isVisible = textSearcher?.getQuery()?.isNotEmpty() ?: false
+        ivSearch.isVisible = textSearcher?.getQuery()?.isEmpty() ?: false
+        ivFilter.isVisible = textSearcher?.getQuery()?.isEmpty() ?: false
+        ivDelete.isVisible = textSearcher?.getQuery()?.isEmpty() ?: false
     }
 
     fun showSearchAction(show: Boolean) {
-        searchEnabled = show
-        isSearchMode = false
+        textSearcher?.showSearchAction(show)
         ivSearch.isVisible = show
         etSearch.isVisible = false
         if (!show) {
@@ -145,7 +141,7 @@ class ToolbarView @JvmOverloads constructor(
 
     override fun onSaveInstanceState(): Parcelable {
         val bundle = Bundle()
-        bundle.putString("query", etSearch.text.toString())
+        bundle.putString("query", textSearcher?.getQuery())
         bundle.putParcelable("parcelableState", super.onSaveInstanceState())
         return bundle
     }
@@ -154,7 +150,7 @@ class ToolbarView @JvmOverloads constructor(
         val bundle = state as Bundle
         val query = bundle.getString("query")
         if(!query.isNullOrBlank()){
-            onIvSearchClicked(query)
+            onIvSearchClicked()
         }
         super.onRestoreInstanceState(bundle.getParcelable("parcelableState"))
     }

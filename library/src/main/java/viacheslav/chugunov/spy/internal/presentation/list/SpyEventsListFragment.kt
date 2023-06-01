@@ -1,6 +1,7 @@
 package viacheslav.chugunov.spy.internal.presentation.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -46,11 +47,6 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_sp
                 tvNotEvents.isVisible = events.isEmpty()
             }
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        viewModel.updateSearch("")
     }
 
     override fun onItemClick(event: SpyEvent) {
