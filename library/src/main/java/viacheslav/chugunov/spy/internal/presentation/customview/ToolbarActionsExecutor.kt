@@ -14,11 +14,12 @@ class ToolbarActionsExecutor {
         notifyNewListener(callback)
     }
 
-    fun unregisterCallback(callback: ToolbarView.Callback) {
+    fun unregisterCallback(callback: ToolbarView.Callback): Boolean {
         val listener = this.listener
-        if(listener==callback){
+        return if(listener==callback){
             this.listener = null
-        }
+            true
+        } else false
     }
 
     fun executeTask( task: Task ) {

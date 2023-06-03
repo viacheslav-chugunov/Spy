@@ -4,6 +4,7 @@ object Launcher {
     private var isFirstLaunch = true
     private var isCanShowNotification = true
 
+    //TODO must launch when MainAcitivity started
     fun getIsFirstLaunch(): Boolean {
         val temp = isFirstLaunch
         isFirstLaunch = false

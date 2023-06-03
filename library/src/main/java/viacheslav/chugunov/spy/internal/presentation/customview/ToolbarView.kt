@@ -101,15 +101,17 @@ class ToolbarView @JvmOverloads constructor(
         actionExecutor.registerCallback(callback)
         textSearcher = TextSearcher(::updateSearch)
         etSearch.addTextChangedListener(textSearcher?.searchTextWatcher)
-        callback.onSearchChanged("")
+        etSearch.setText("")
         resetViewVisibility()
     }
 
     fun unregisterCallback(callback: Callback) {
-        actionExecutor.unregisterCallback(callback)
-        etSearch.removeTextChangedListener(textSearcher?.searchTextWatcher)
-        textSearcher=null
-        resetViewVisibility()
+        if(actionExecutor.unregisterCallback(callback)) {
+            etSearch.removeTextChangedListener(textSearcher?.searchTextWatcher)
+            etSearch.setText("")
+            textSearcher = null
+            resetViewVisibility()
+        }
     }
 
     fun resetViewVisibility() {

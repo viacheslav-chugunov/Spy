@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
 import viacheslav.chugunov.spy.Launcher
 import viacheslav.chugunov.spy.R
+import viacheslav.chugunov.spy.internal.domain.DialogController
+import viacheslav.chugunov.spy.internal.domain.DialogListener
 import viacheslav.chugunov.spy.internal.domain.SpyNavigation
 import viacheslav.chugunov.spy.internal.domain.ToolbarController
 import viacheslav.chugunov.spy.internal.presentation.customview.ToolbarView
@@ -26,17 +28,6 @@ internal class SpyActivity : AppCompatActivity(), ToolbarController, SpyNavigati
             supportFragmentManager.beginTransaction()
                 .replace(R.id.frag_container, spyEventsListFragment)
                 .commit()
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (Launcher.getIsFirstLaunch()) {
-            supportFragmentManager.fragments.getOrNull(0)?.let {
-                if (it is SpyEventsListFragment) {
-                    it.onAgreeButtonClick()
-                }
-            }
         }
     }
 
@@ -60,6 +51,9 @@ internal class SpyActivity : AppCompatActivity(), ToolbarController, SpyNavigati
             savedInstanceState: Bundle?,
         ) {
             super.onFragmentViewCreated(fm, f, v, savedInstanceState)
+            if(f is DialogListener && Launcher.getIsFirstLaunch()) {
+                f.onAgreeButtonClick()
+            }
             if (f is ToolbarView.Callback) {
                 toolbar.registerCallback(f)
             }

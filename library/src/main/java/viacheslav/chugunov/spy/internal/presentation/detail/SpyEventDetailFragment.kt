@@ -12,14 +12,13 @@ import viacheslav.chugunov.spy.internal.presentation.BaseFragment
 internal class SpyEventDetailFragment : BaseFragment(R.layout.spy_res_fragment_spy_event_detail) {
 
     private lateinit var event: SpyEvent
-    override var title = ""
+    override val title by lazy { event.message }
 
     companion object {
         private const val EXTRA_SPY_EVENT = "spy-event"
 
         fun newInstance(event: SpyEvent) = SpyEventDetailFragment().apply {
             this.event = event
-            this.title = event.message
         }
     }
 
