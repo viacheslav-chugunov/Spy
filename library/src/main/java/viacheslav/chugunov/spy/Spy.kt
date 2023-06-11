@@ -12,6 +12,8 @@ class Spy internal constructor(
     private val config: SpyConfig
 ) {
 
+    private val classInfo = mutableListOf<SpyMeta>()
+
     constructor(applicationContext: Context, config: SpyConfig) : this(
         notifications = inject(applicationContext),
         storage = inject(applicationContext),
@@ -49,9 +51,26 @@ class Spy internal constructor(
 
     fun error(error: Throwable, meta: Collection<SpyMeta>) = error(error, *meta.toTypedArray())
 
+    fun addClassInfo(any: Any) {
+        val fields = any.javaClass.declaredFields
+        fields.forEach {
+            try {
+                it.isAccessible = true
+                classInfo.add(
+                    SpyMeta(
+                        it.name,
+                        it.get(any)!!.toString()
+                    )
+                )
+            } catch (e: SecurityException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     private fun log(message: String, type: SpyEventType, vararg meta: SpyMeta) {
         notifications.showEventNotification(type, message)
-        val metaArray = (meta.toList()+config.initialMeta).toTypedArray()
+        val metaArray = (meta.toList()+config.initialMeta+classInfo).toTypedArray()
         val event = SpyEvent(message, type, *metaArray)
         storage.addEvent(event)
     }

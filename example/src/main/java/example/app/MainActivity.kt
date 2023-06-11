@@ -26,7 +26,9 @@ class MainActivity : AppCompatActivity() {
                 .showOpenSpyNotification(true)
                 .isNotificationsImportant(true)
                 .build()
-            return Spy(applicationContext, config)
+            return Spy(applicationContext, config).apply {
+                //addClassInfo()
+            }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
