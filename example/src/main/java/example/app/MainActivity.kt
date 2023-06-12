@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import viacheslav.chugunov.spy.Spy
 import viacheslav.chugunov.spy.SpyConfig
 import viacheslav.chugunov.spy.SpyMeta
+import viacheslav.chugunov.spy.internal.data.TestB
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         val btnErrorNotification = findViewById<Button>(R.id.btn_error_notification)
         spy
         btnSuccessNotification.setOnClickListener {
-            spy.success("Test success notification")
+            spy.success(TestB(), "Test success notification")
         }
         btnInfoNotification.setOnClickListener {
             spy.info("Test info notification")
