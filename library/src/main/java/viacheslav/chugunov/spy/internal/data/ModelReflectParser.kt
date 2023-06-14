@@ -18,7 +18,6 @@ class ModelReflectParser {
         val qq: Queue<Pair<String, Any>> = LinkedList()
         val result = mutableMapOf<String, Any>()
 
-        val nullValue = "null"
         val objectValue = if (any.javaClass.isAnonymousClass) "<object>" else null
 
         val allFields = getAllFieldsClass(any).toTypedArray()
@@ -42,7 +41,7 @@ class ModelReflectParser {
                         val listItemPath = createIterableTag(iterablePath, typeVariable, index)
 
                         if (listItemValue == null) {
-                            result[listItemPath] = nullValue
+                            result[listItemPath] = listItemValue.toString()
                         }
                         else if (isPrimitive(listItemValue)) {
                             result[listItemPath] = listItemValue.toString()
