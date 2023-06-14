@@ -1,81 +1,116 @@
 package viacheslav.chugunov.spy.internal.data
 
+import java.lang.reflect.Field
 import java.util.*
 
 class ModelReflectParser {
 
+    //TODO Builder mustn't exist as a field variable
+    private val strBuilder = StringBuilder()
+
     fun getFieldsClassInfo(any: Any): Map<String, String> {
+
+        if(isPrimitive(any)) {
+            val type = any.javaClass.simpleName
+            return mapOf(type to any.toString())
+        }
+
         val qq: Queue<Pair<String, Any>> = LinkedList()
         val result = mutableMapOf<String, Any>()
-        val strBuilder = StringBuilder()
+
         val nullValue = "null"
-        val collectionValue = ".collection"
-        any.javaClass.declaredFields.forEach {field ->
-            field.isAccessible = true
-            strBuilder.append(any.javaClass.simpleName).append('.').append(field.name)
-            val path = strBuilder.toString()
-            val item = field.get(any) ?: nullValue
-            qq.offer(Pair(path, item))
-            strBuilder.clear()
-        }
+        val objectValue = if (any.javaClass.isAnonymousClass) "<object>" else null
+
+        val allFields = getAllFieldsClass(any).toTypedArray()
+        val classPath = objectValue ?: any.javaClass.simpleName
+        loadFieldsToQueue(any, qq, classPath, allFields)
+
         while (qq.isNotEmpty()) {
             val item = qq.remove()
-            val path = item.first
-            val itemValue = item.second
+            val currentPath = item.first
+            val currentValue = item.second
             when {
-                isPrimitive(itemValue) -> {
-                    result[path] = itemValue.toString()
+                isPrimitive(currentValue) -> {
+                    result[currentPath] = currentValue.toString()
                 }
-                isIterable(itemValue) -> {
-                    val iterable = itemValue as? Iterable<*> ?: (itemValue as Array<*>).asIterable()
-                    iterable.forEach { listItem ->
-                        if (listItem == null) {
-                            result[path] = nullValue
-                        } else if (isPrimitive(listItem)) {
-                            if(result[path] != null) {
-                                strBuilder.append(result[path].toString()).append(", ")
-                            }
-                            strBuilder.append(listItem.toString())
-                            result[path] = strBuilder.toString()
-                            strBuilder.clear()
-                        } else {
-                            strBuilder.append(path)
-                            if(isIterable(listItem)) {
-                                strBuilder.append(collectionValue)
-                            }
-                            qq.offer(
-                                Pair(
-                                    strBuilder.toString(),
-                                    listItem
-                                )
-                            )
-                            strBuilder.clear()
+                isIterable(currentValue) -> {
+                    val iterable = currentValue as? Iterable<*> ?: (currentValue as Array<*>).asIterable()
+                    val iterablePath = addTagToPath(currentPath, currentValue.javaClass.simpleName)
+
+                    iterable.forEachIndexed { index, listItemValue ->
+                        val typeVariable = listItemValue?.javaClass?.simpleName
+                        val listItemPath = createIterableTag(iterablePath, typeVariable, index)
+
+                        if (listItemValue == null) {
+                            result[listItemPath] = nullValue
+                        }
+                        else if (isPrimitive(listItemValue)) {
+                            result[listItemPath] = listItemValue.toString()
+                        }
+                        else {
+                            qq.offer(Pair(listItemPath, listItemValue))
                         }
                     }
                 }
-                itemValue.javaClass.isEnum -> {
-                    result[path] = itemValue.toString()
+                currentValue.javaClass.isEnum -> {
+                    result[currentPath] = currentValue.toString()
                 }
                 else -> {
-                    itemValue.javaClass.declaredFields.forEach { field ->
-                        field.isAccessible = true
-                        strBuilder.append(path)
-                            .append('.')
-                            .append(itemValue.javaClass.simpleName)
-                            .append('.')
-                            .append(field.name)
-                        qq.offer(
-                            Pair(
-                                strBuilder.toString(),
-                                (field.get(itemValue) ?: nullValue)
-                            )
-                        )
-                        strBuilder.clear()
-                    }
+                    val newPath = addTagToPath(currentPath, currentValue.javaClass.simpleName)
+                    loadFieldsToQueue(currentValue, qq, newPath)
                 }
             }
         }
         return result.mapValues { it.value.toString() }
+    }
+
+    private fun loadFieldsToQueue(
+        value: Any, queue: Queue<Pair<String, Any>>,
+        path: String, fields: Array<out Field>? = null,
+    ) {
+        val nullValue = "null"
+        val currentFields = fields ?: value.javaClass.declaredFields
+        currentFields.forEach { field ->
+            field.isAccessible = true
+            val fieldPath = addTagToPath(path, field.name)
+            val fieldValue = (field.get(value) ?: nullValue)
+            queue.offer(Pair(fieldPath, fieldValue))
+        }
+    }
+
+    private fun getAllFieldsClass(any: Any): List<Field> {
+        val allFields = any.javaClass.declaredFields.toMutableList()
+        var currentClass = any
+        var superClass = currentClass.javaClass.superclass
+        while (superClass != null) {
+            allFields.addAll(superClass.declaredFields)
+            currentClass = superClass
+            superClass = currentClass.superclass
+        }
+        return allFields
+    }
+
+    private fun addTagToPath(path: String, tag: String): String {
+        strBuilder.append(path)
+            .append('.')
+            .append(tag)
+        val resultValue = strBuilder.toString()
+        strBuilder.clear()
+        return resultValue
+    }
+
+    private fun createIterableTag(path: String, type: String?, index: Int): String {
+        val currentType = type ?: "Nothing"
+        strBuilder
+            .append(path)
+            .append('<')
+            .append(currentType)
+            .append(">[")
+            .append(index)
+            .append(']')
+        val resultValue = strBuilder.toString()
+        strBuilder.clear()
+        return resultValue
     }
 
     private fun isPrimitive(value: Any): Boolean {

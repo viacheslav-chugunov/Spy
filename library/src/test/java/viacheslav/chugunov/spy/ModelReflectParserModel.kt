@@ -28,6 +28,24 @@ class ModelReflectParserModel {
     }
 
     @Test
+    fun primitiveClass() {
+        val a = 5
+        val map = parser.getFieldsClassInfo(a)
+        val expected = mapOf("Integer" to "5")
+        Assert.assertEquals(
+            expected, map
+        )
+    }
+
+    @Test
+    fun primitiveInterface() {
+        val sequence: CharSequence = "abs"
+        val map = parser.getFieldsClassInfo(sequence)
+        val expected = mapOf("String" to sequence)
+        Assert.assertEquals(expected, map)
+    }
+
+    @Test
     fun parseSimpleModelWithNulls() {
         class Model(val field1: String?, private val field2: Int?)
         val model = Model(null, null)
@@ -60,9 +78,9 @@ class ModelReflectParserModel {
         Assert.assertEquals(map, mapOf(
             "Model.field1" to "1",
             "Model.field2" to "2",
-            "Model.field3.List<Int>[0]" to "3",
-            "Model.field3.List<Int>[1]" to "4",
-            "Model.field3.List<Int>[2]" to "5",
+            "Model.field3.ArrayList<Integer>[0]" to "3",
+            "Model.field3.ArrayList<Integer>[1]" to "4",
+            "Model.field3.ArrayList<Integer>[2]" to "5",
         ))
     }
 
@@ -74,10 +92,10 @@ class ModelReflectParserModel {
         val map = parser.getFieldsClassInfo(model)
         Assert.assertEquals(map, mapOf(
             "Model.field1" to "1",
-            "Model.field2.List<Int>[0].Inner.field1" to "2",
-            "Model.field2.List<Int>[0].Inner.field2" to "3",
-            "Model.field2.List<Int>[1].Inner.field1" to "4",
-            "Model.field2.List<Int>[2].Inner.field2" to "5",
+            "Model.field2.ArrayList<Inner>[0].Inner.field1" to "2",
+            "Model.field2.ArrayList<Inner>[0].Inner.field2" to "3",
+            "Model.field2.ArrayList<Inner>[1].Inner.field1" to "4",
+            "Model.field2.ArrayList<Inner>[1].Inner.field2" to "5",
             "Model.field3" to "6"
         ))
     }
