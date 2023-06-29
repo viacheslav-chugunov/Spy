@@ -5,9 +5,6 @@ import java.util.*
 
 class ModelReflectParser {
 
-    //TODO Builder mustn't exist as a field variable
-    private val strBuilder = StringBuilder()
-
     fun getFieldsClassInfo(any: Any): Map<String, String> {
 
         if(isPrimitive(any)) {
@@ -90,15 +87,15 @@ class ModelReflectParser {
     }
 
     private fun addTagToPath(path: String, tag: String): String {
+        val strBuilder = StringBuilder()
         strBuilder.append(path)
             .append('.')
             .append(tag)
-        val resultValue = strBuilder.toString()
-        strBuilder.clear()
-        return resultValue
+        return strBuilder.toString()
     }
 
     private fun createIterableTag(path: String, type: String?, index: Int): String {
+        val strBuilder = StringBuilder()
         val currentType = type ?: "Nothing"
         strBuilder
             .append(path)
@@ -107,9 +104,7 @@ class ModelReflectParser {
             .append(">[")
             .append(index)
             .append(']')
-        val resultValue = strBuilder.toString()
-        strBuilder.clear()
-        return resultValue
+        return strBuilder.toString()
     }
 
     private fun isPrimitive(value: Any): Boolean {

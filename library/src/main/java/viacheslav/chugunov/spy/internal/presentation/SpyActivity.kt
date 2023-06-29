@@ -56,19 +56,14 @@ internal class SpyActivity : AppCompatActivity(), ToolbarController, SpyNavigati
             }
             if (f is ToolbarView.Callback) {
                 toolbar.registerCallback(f)
+            } else {
+                toolbar.unregisterCallback()
             }
         }
 
         override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
             super.onFragmentStarted(fm, f)
             toolbar.resetViewVisibility()
-        }
-
-        override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
-            super.onFragmentViewDestroyed(fm, f)
-            if (f is ToolbarView.Callback) {
-                toolbar.unregisterCallback(f)
-            }
         }
     }
 

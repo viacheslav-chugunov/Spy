@@ -26,7 +26,7 @@ class ToolbarView @JvmOverloads constructor(
         initializeListeners()
     }
 
-    private val actionExecutor = ToolbarActionsExecutor()
+    private var listener: Callback? = null
 
     private var textSearcher: TextSearcher? = null
 
@@ -66,14 +66,10 @@ class ToolbarView @JvmOverloads constructor(
             onIvSearchClicked()
         }
         ivDelete.setOnClickListener {
-            actionExecutor.executeTask {
-             it.showDeleteDialog()
-            }
+             listener?.showDeleteDialog()
         }
         ivFilter.setOnClickListener {
-            actionExecutor.executeTask {
-                it.showFilterDialog()
-            }
+            listener?.showFilterDialog()
         }
     }
 
@@ -91,27 +87,22 @@ class ToolbarView @JvmOverloads constructor(
         imm.showSoftInput(etSearch, InputMethodManager.SHOW_IMPLICIT)
     }
 
-    private fun updateSearch(query: String = "") {
-        actionExecutor.executeTask {
-            it.onSearchChanged(query)
-        }
-    }
+    private fun updateSearch(query: String = "") = listener?.onSearchChanged(query)
+
 
     fun registerCallback(callback: Callback) {
-        actionExecutor.registerCallback(callback)
+        this.listener = callback
         textSearcher = TextSearcher(::updateSearch)
         etSearch.addTextChangedListener(textSearcher?.searchTextWatcher)
         etSearch.setText("")
         resetViewVisibility()
     }
 
-    fun unregisterCallback(callback: Callback) {
-        if(actionExecutor.unregisterCallback(callback)) {
+    fun unregisterCallback() {
             etSearch.removeTextChangedListener(textSearcher?.searchTextWatcher)
             etSearch.setText("")
             textSearcher = null
             resetViewVisibility()
-        }
     }
 
     fun resetViewVisibility() {
