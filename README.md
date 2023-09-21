@@ -20,7 +20,7 @@ Add the dependency:
 
 ```
 dependencies {
-    debugImplementation 'com.github.viacheslav-chugunov:Spy:1.0.4-alpha-no-op'
+    debugImplementation 'com.github.viacheslav-chugunov:Spy:1.0.4-alpha'
     releaseImplementation 'com.github.viacheslav-chugunov:Spy:1.0.4-alpha-no-op'
 }
 ```
