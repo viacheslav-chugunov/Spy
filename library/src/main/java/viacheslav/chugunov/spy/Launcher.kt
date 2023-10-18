@@ -1,6 +1,6 @@
 package viacheslav.chugunov.spy
 
-object Launcher {
+internal object Launcher {
     private var isFirstLaunch = true
     private var isCanShowNotification = true
 
