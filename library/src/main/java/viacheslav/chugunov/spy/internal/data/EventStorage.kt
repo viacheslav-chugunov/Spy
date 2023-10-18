@@ -1,11 +1,8 @@
 package viacheslav.chugunov.spy.internal.data
 
 import android.content.Context
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import viacheslav.chugunov.spy.internal.data.room.SpyRoomDatabase
 import viacheslav.chugunov.spy.internal.domain.SpyEntityFactory
 import kotlin.coroutines.CoroutineContext
@@ -44,7 +41,7 @@ internal class EventStorage(
         return flow
     }
 
-    suspend fun removeAllData() {
+    suspend fun removeAllData() = withContext(Dispatchers.IO) {
             dao.removeAllData()
     }
 }

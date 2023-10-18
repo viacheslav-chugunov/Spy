@@ -1,6 +1,7 @@
 package viacheslav.chugunov.spy.internal.presentation.list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -11,33 +12,30 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.launch
 import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.data.SpyEvent
-import viacheslav.chugunov.spy.internal.domain.DialogController
 import viacheslav.chugunov.spy.internal.domain.DialogListener
-import viacheslav.chugunov.spy.internal.domain.SearchViewVisitor
 import viacheslav.chugunov.spy.internal.presentation.BaseFragment
+import viacheslav.chugunov.spy.internal.presentation.customview.ToolbarView
 import viacheslav.chugunov.spy.internal.presentation.detail.SpyEventDetailFragment
 
 internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_spy_events_list),
-    SpyEventsAdapter.Listener, SearchViewVisitor,
-    DialogListener, DialogController {
+    SpyEventsAdapter.Listener, ToolbarView.Callback, DialogListener {
 
     companion object {
         fun newInstance() = SpyEventsListFragment()
     }
 
+    override val showDelete = true
+    override val showFilter = true
+    override val showSearch = true
+
     private lateinit var adapter: SpyEventsAdapter
 
-    private lateinit var viewModel: SpyEventsViewModel
-
-    override val showSearch: Boolean = true
-    override val showDelete: Boolean = true
-    override val showFilter: Boolean = true
+    private val viewModel: SpyEventsViewModel by lazy { ViewModelProvider(this)[SpyEventsViewModel::class.java] }
 
     private lateinit var tvNotEvents: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this)[SpyEventsViewModel::class.java]
         tvNotEvents = view.findViewById(R.id.tv_not_events_list)
         val recycler = view.findViewById<RecyclerView>(R.id.recycler_list)
         adapter = SpyEventsAdapter(listener = this)
@@ -51,18 +49,9 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_sp
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewModel.updateSearch("")
-    }
-
     override fun onItemClick(event: SpyEvent) {
         val spyEventDetailFragment = SpyEventDetailFragment.newInstance(event)
         navigate(spyEventDetailFragment)
-    }
-
-    override fun onSearchChanged(query: String) {
-        viewModel.updateSearch(query)
     }
 
     override fun onCheckBoxesClicked(index: Int, isChecked: Boolean) {
@@ -81,7 +70,6 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_sp
 
     override fun provideFilters(): Map<Int, Boolean> = viewModel.getMap()
 
-
     override fun showDeleteDialog() {
         DeleteDialogFragment().show(childFragmentManager, null)
     }
@@ -90,4 +78,7 @@ internal class SpyEventsListFragment : BaseFragment(R.layout.spy_res_fragment_sp
         FilterDialogFragment().show(childFragmentManager, null)
     }
 
+    override fun onSearchChanged(query: String) {
+        viewModel.updateSearch(query)
+    }
 }

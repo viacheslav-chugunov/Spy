@@ -24,6 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:textIsSelectable="true"
             android:layout_weight="1"/>
 
         <View
@@ -38,6 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:textIsSelectable="true"
             android:layout_weight="1"/>
 
         <View
