@@ -51,9 +51,9 @@ internal class SpyActivity : AppCompatActivity(), ToolbarController, SpyNavigati
             savedInstanceState: Bundle?,
         ) {
             super.onFragmentViewCreated(fm, f, v, savedInstanceState)
-            if(f is DialogListener && Launcher.getIsFirstLaunch()) {
-                f.onAgreeButtonClick()
-            }
+//            if(f is DialogListener && Launcher.getIsFirstLaunch()) {
+//                f.onAgreeButtonClick()
+//            }
             if (f is ToolbarView.Callback) {
                 toolbar.registerCallback(f)
             } else {
