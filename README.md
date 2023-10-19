@@ -20,8 +20,8 @@ Add the dependency:
 
 ```
 dependencies {
-    debugImplementation 'com.github.viacheslav-chugunov:Spy:1.0.4-alpha'
-    releaseImplementation 'com.github.viacheslav-chugunov:Spy:1.0.4-alpha-no-op'
+    debugImplementation 'com.github.viacheslav-chugunov:Spy:1.0'
+    releaseImplementation 'com.github.viacheslav-chugunov:Spy:1.0'
 }
 ```
 
@@ -55,14 +55,18 @@ spy.success("Message", SpyMeta("Key1", "Value1"), SpyMeta("Key2", "Value2"))
 | --- | --- |
 | `success(message: String, vararg meta: SpyMeta)` | Sends success message. |
 | `success(message: String, meta: Collection<SpyMeta>)` | Sends success message. |
+| `success(model: Any, message: String, vararg meta: SpyMeta)` | Sends success message and parses model as meta fields. |
 | `info(message: String, vararg meta: SpyMeta)` | Sends information message. |
 | `info(message: String, meta: Collection<SpyMeta>)` | Sends information message. |
+| `info(model: Any, message: String, vararg meta: SpyMeta)` | Sends information message and parses model as meta fields. |
 | `warning(message: String, vararg meta: SpyMeta)` | Sends warning message. |
 | `warning(message: String, meta: Collection<SpyMeta>)` | Sends warning message. |
+| `warning(model: Any, message: String, vararg meta: SpyMeta)` | Sends warning message and parses model as meta fields. |
 | `error(message: String, vararg meta: SpyMeta)` | Sends error message. |
 | `error(message: String, meta: Collection<SpyMeta>)` | Sends error message. |
 | `error(error: Throwable, vararg meta: SpyMeta)` | Sends error message. |
 | `error(error: Throwable, meta: Collection<SpyMeta>)` | Sends error message. |
+| `error(model: Any, message: String, vararg meta: SpyMeta)` | Sends error message and parses model as meta fields. |
 
 You can also create Spy with custom configuration:
 
