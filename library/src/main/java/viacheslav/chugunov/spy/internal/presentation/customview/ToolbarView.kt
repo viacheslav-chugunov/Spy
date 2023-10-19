@@ -17,9 +17,8 @@ import viacheslav.chugunov.spy.R
 class ToolbarView @JvmOverloads constructor(
     context: Context,
     attribute: AttributeSet? = null,
-    defStyleAttr: Int = 0,
-    desStyleRes: Int = 0,
-) : FrameLayout(context, attribute, defStyleAttr, desStyleRes) {
+    defStyleAttr: Int = 0
+) : FrameLayout(context, attribute, defStyleAttr) {
 
     init {
         LayoutInflater.from(context).inflate(R.layout.spy_res_toolbar_custom, this, true)
