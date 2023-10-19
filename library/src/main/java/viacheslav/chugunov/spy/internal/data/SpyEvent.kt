@@ -1,5 +1,7 @@
 package viacheslav.chugunov.spy.internal.data
 
+import android.content.Context
+import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import viacheslav.chugunov.spy.R
@@ -74,5 +76,9 @@ internal data class SpyEvent(
         val bgColorRes = if (position % 2 == 0) R.color.spy_res_white else R.color.spy_res_gray_100
         val context = holder.itemView.context
         holder.root.setBackgroundColor(ContextCompat.getColor(context, bgColorRes))
+    }
+
+    fun share(context: Context) {
+
     }
 }

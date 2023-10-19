@@ -25,7 +25,8 @@ class ToolbarView @JvmOverloads constructor(
         initializeListeners()
     }
 
-    private var listener: Callback? = null
+    private var listCallback: ListCallback? = null
+    private var detailCallback: DetailCallback? = null
 
     private var textSearcher: TextSearcher? = null
 
@@ -34,11 +35,16 @@ class ToolbarView @JvmOverloads constructor(
     private lateinit var etSearch: EditText
     private lateinit var ivDelete: ImageView
     private lateinit var ivFilter: ImageView
+    private lateinit var ivShare: ImageView
 
-    interface Callback {
+    interface ListCallback {
         fun showDeleteDialog()
         fun showFilterDialog()
         fun onSearchChanged(query: String)
+    }
+
+    interface DetailCallback {
+        fun requestShare()
     }
 
     fun setTitle(title: String) {
@@ -60,15 +66,19 @@ class ToolbarView @JvmOverloads constructor(
         ivFilter = findViewById(R.id.action_filter)
         ivDelete = findViewById(R.id.action_delete)
         ivSearch = findViewById(R.id.action_search)
+        ivShare = findViewById(R.id.action_share)
 
         ivSearch.setOnClickListener {
             onIvSearchClicked()
         }
         ivDelete.setOnClickListener {
-             listener?.showDeleteDialog()
+             listCallback?.showDeleteDialog()
         }
         ivFilter.setOnClickListener {
-            listener?.showFilterDialog()
+            listCallback?.showFilterDialog()
+        }
+        ivShare.setOnClickListener {
+            detailCallback?.requestShare()
         }
     }
 
@@ -86,22 +96,26 @@ class ToolbarView @JvmOverloads constructor(
         imm.showSoftInput(etSearch, InputMethodManager.SHOW_IMPLICIT)
     }
 
-    private fun updateSearch(query: String = "") = listener?.onSearchChanged(query)
+    private fun updateSearch(query: String = "") = listCallback?.onSearchChanged(query)
 
 
-    fun registerCallback(callback: Callback) {
-        this.listener = callback
+    fun registerListCallback(listCallback: ListCallback) {
+        this.listCallback = listCallback
         textSearcher = TextSearcher(::updateSearch)
         etSearch.addTextChangedListener(textSearcher?.searchTextWatcher)
         etSearch.setText("")
         resetViewVisibility()
     }
 
+    fun registerDetailCallback(detailCallback: DetailCallback) {
+        this.detailCallback = detailCallback
+    }
+
     fun unregisterCallback() {
-            etSearch.removeTextChangedListener(textSearcher?.searchTextWatcher)
-            etSearch.setText("")
-            textSearcher = null
-            resetViewVisibility()
+        etSearch.removeTextChangedListener(textSearcher?.searchTextWatcher)
+        etSearch.setText("")
+        textSearcher = null
+        resetViewVisibility()
     }
 
     fun resetViewVisibility() {
@@ -129,6 +143,10 @@ class ToolbarView @JvmOverloads constructor(
 
     fun showFilterAction(show: Boolean) {
         ivFilter.isVisible = show
+    }
+
+    fun showShareAction(show: Boolean) {
+        ivShare.isVisible = show
     }
 
     override fun onSaveInstanceState(): Parcelable {

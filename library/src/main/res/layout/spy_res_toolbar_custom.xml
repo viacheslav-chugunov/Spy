@@ -66,6 +66,12 @@
             android:layout_gravity="center_vertical"
             android:src="@drawable/spy_res_ic_search"/>
 
+        <ImageView
+            android:id="@+id/action_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/spy_res_ic_share"/>
 
     </LinearLayout>
 

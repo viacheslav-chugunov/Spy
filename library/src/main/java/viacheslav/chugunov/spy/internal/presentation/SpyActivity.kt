@@ -6,10 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentManager.FragmentLifecycleCallbacks
-import viacheslav.chugunov.spy.Launcher
 import viacheslav.chugunov.spy.R
-import viacheslav.chugunov.spy.internal.domain.DialogController
-import viacheslav.chugunov.spy.internal.domain.DialogListener
 import viacheslav.chugunov.spy.internal.domain.SpyNavigation
 import viacheslav.chugunov.spy.internal.domain.ToolbarController
 import viacheslav.chugunov.spy.internal.presentation.customview.ToolbarView
@@ -51,13 +48,10 @@ internal class SpyActivity : AppCompatActivity(), ToolbarController, SpyNavigati
             savedInstanceState: Bundle?,
         ) {
             super.onFragmentViewCreated(fm, f, v, savedInstanceState)
-//            if(f is DialogListener && Launcher.getIsFirstLaunch()) {
-//                f.onAgreeButtonClick()
-//            }
-            if (f is ToolbarView.Callback) {
-                toolbar.registerCallback(f)
-            } else {
-                toolbar.unregisterCallback()
+            when (f) {
+                is ToolbarView.ListCallback -> toolbar.registerListCallback(f)
+                is ToolbarView.DetailCallback -> toolbar.registerDetailCallback(f)
+                else -> toolbar.unregisterCallback()
             }
         }
 
@@ -87,5 +81,9 @@ internal class SpyActivity : AppCompatActivity(), ToolbarController, SpyNavigati
 
     override fun showSearchAction(show: Boolean) {
         toolbar.showSearchAction(show)
+    }
+
+    override fun showShareAction(show: Boolean) {
+        toolbar.showShareAction(show)
     }
 }

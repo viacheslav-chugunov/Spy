@@ -23,6 +23,7 @@ internal abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fr
     protected open val showSearch: Boolean = false
     protected open val showDelete: Boolean = false
     protected open val showFilter: Boolean = false
+    protected open val showShare: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -48,6 +49,7 @@ internal abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fr
         controller?.showSearchAction(showSearch)
         controller?.showDeleteAction(showDelete)
         controller?.showFilterAction(showFilter)
+        controller?.showShareAction(showShare)
     }
 
     override fun onStop() {
@@ -55,6 +57,7 @@ internal abstract class BaseFragment(@LayoutRes private val layoutRes: Int) : Fr
         controller?.showDeleteAction(false)
         controller?.showFilterAction(false)
         controller?.showSearchAction(false)
+        controller?.showShareAction(false)
     }
 
     override fun navigate(fragment: Fragment) {
