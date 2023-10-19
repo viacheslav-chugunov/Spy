@@ -4,6 +4,10 @@
 
 Spy was created to track events within the application, not only by developers, but also by other users of the application: QA, product managers, etc. The library is very easy to use and similar to a standard android console logger. All you need is to send a message, then a push notification will appear, by clicking on which you can see information about the current event.
 
+<p align="center">
+  <img src="https://github.com/viacheslav-chugunov/Spy/blob/master/github-assets/spy-preview.gif" height=500 />
+</p>
+
 ## Setup
 
 Add it in your root build.gradle at the end of repositories:
