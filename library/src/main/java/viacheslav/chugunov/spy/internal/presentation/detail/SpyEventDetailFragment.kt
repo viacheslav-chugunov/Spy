@@ -42,6 +42,6 @@ internal class SpyEventDetailFragment : BaseFragment(R.layout.spy_res_fragment_s
     }
 
     override fun requestShare() {
-
+        startActivity(event.share())
     }
 }

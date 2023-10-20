@@ -48,10 +48,10 @@ internal class SpyActivity : AppCompatActivity(), ToolbarController, SpyNavigati
             savedInstanceState: Bundle?,
         ) {
             super.onFragmentViewCreated(fm, f, v, savedInstanceState)
+            toolbar.unregisterCallback()
             when (f) {
                 is ToolbarView.ListCallback -> toolbar.registerListCallback(f)
                 is ToolbarView.DetailCallback -> toolbar.registerDetailCallback(f)
-                else -> toolbar.unregisterCallback()
             }
         }
 

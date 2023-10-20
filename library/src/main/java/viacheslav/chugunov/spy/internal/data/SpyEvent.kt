@@ -78,7 +78,23 @@ internal data class SpyEvent(
         holder.root.setBackgroundColor(ContextCompat.getColor(context, bgColorRes))
     }
 
-    fun share(context: Context) {
-
+    fun share(): Intent {
+        val text = StringBuilder()
+        if (message.isNotEmpty()) {
+            text.append(message)
+            if (meta.isNotEmpty()) {
+                text.append("\n\n")
+            }
+        }
+        meta.forEachIndexed { index, meta ->
+            text.append("${index + 1}. ${meta.key}:\n${meta.field}")
+            if (index != this.meta.lastIndex) {
+                text.append("\n\n")
+            }
+        }
+        return Intent(Intent.ACTION_SEND)
+            .setType("text/plain")
+            .putExtra(Intent.EXTRA_SUBJECT, message)
+            .putExtra(Intent.EXTRA_TEXT, text.toString())
     }
 }
