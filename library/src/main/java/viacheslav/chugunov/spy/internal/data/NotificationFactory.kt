@@ -56,6 +56,7 @@ internal class NotificationFactory(
         notificationId: Int,
     ) {
         val intent = Intent(applicationContext, SpyActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         } else {

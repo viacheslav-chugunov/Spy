@@ -10,7 +10,8 @@
             android:exported="false"
             android:label="Spy"
             android:theme="@style/Theme.Spy"
-            android:launchMode="singleTop">
+            android:launchMode="singleTask"
+            android:taskAffinity="viacheslav.chugunov.spy.task">
         </activity>
 
     </application>
