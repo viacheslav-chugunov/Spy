@@ -3,7 +3,7 @@ package viacheslav.chugunov.spy.internal.data
 import java.lang.reflect.Field
 import java.util.*
 
-class ModelReflectParser {
+internal class ModelReflectParser {
 
     fun getFieldsClassInfo(any: Any): Map<String, String> {
 

@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import viacheslav.chugunov.spy.R
 
-class ToolbarView @JvmOverloads constructor(
+internal class ToolbarView @JvmOverloads constructor(
     context: Context,
     attribute: AttributeSet? = null,
     defStyleAttr: Int = 0

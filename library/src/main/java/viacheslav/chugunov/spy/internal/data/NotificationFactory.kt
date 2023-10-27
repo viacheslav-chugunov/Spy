@@ -8,7 +8,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationCompat
-import viacheslav.chugunov.spy.Launcher
+import viacheslav.chugunov.spy.internal.Launcher
 import viacheslav.chugunov.spy.R
 import viacheslav.chugunov.spy.internal.presentation.SpyActivity
 
