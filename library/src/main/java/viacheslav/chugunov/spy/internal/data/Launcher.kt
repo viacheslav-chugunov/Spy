@@ -1,4 +1,4 @@
-package viacheslav.chugunov.spy
+package viacheslav.chugunov.spy.internal.data
 
 internal object Launcher {
     private var isFirstLaunch = true

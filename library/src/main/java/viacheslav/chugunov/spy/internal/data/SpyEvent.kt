@@ -1,5 +1,8 @@
 package viacheslav.chugunov.spy.internal.data
 
+import android.content.Context
+import android.content.Intent
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import viacheslav.chugunov.spy.R
@@ -74,5 +77,30 @@ internal data class SpyEvent(
         val bgColorRes = if (position % 2 == 0) R.color.spy_res_white else R.color.spy_res_gray_100
         val context = holder.itemView.context
         holder.root.setBackgroundColor(ContextCompat.getColor(context, bgColorRes))
+        holder.root.setOnLongClickListener {
+            ClipboardManager(context).copy("${meta.key}:\n${meta.field}")
+            Toast.makeText(context, R.string.spy_res_field_copied, Toast.LENGTH_SHORT).show()
+            true
+        }
+    }
+
+    fun share(): Intent {
+        val text = StringBuilder()
+        if (message.isNotEmpty()) {
+            text.append(message)
+            if (meta.isNotEmpty()) {
+                text.append("\n\n")
+            }
+        }
+        meta.forEachIndexed { index, meta ->
+            text.append("${index + 1}. ${meta.key}:\n${meta.field}")
+            if (index != this.meta.lastIndex) {
+                text.append("\n\n")
+            }
+        }
+        return Intent(Intent.ACTION_SEND)
+            .setType("text/plain")
+            .putExtra(Intent.EXTRA_SUBJECT, message)
+            .putExtra(Intent.EXTRA_TEXT, text.toString())
     }
 }

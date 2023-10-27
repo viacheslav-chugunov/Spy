@@ -6,10 +6,14 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import viacheslav.chugunov.spy.R
+import viacheslav.chugunov.spy.internal.data.ClipboardManager
 import viacheslav.chugunov.spy.internal.data.SpyEvent
+import viacheslav.chugunov.spy.internal.data.inject
 import viacheslav.chugunov.spy.internal.presentation.BaseFragment
+import viacheslav.chugunov.spy.internal.presentation.customview.ToolbarView
 
-internal class SpyEventDetailFragment : BaseFragment(R.layout.spy_res_fragment_spy_event_detail) {
+internal class SpyEventDetailFragment : BaseFragment(R.layout.spy_res_fragment_spy_event_detail),
+    ToolbarView.DetailCallback {
 
     private lateinit var event: SpyEvent
     override val title by lazy { event.message }
@@ -21,6 +25,8 @@ internal class SpyEventDetailFragment : BaseFragment(R.layout.spy_res_fragment_s
             this.event = event
         }
     }
+
+    override val showShare: Boolean = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,5 +41,9 @@ internal class SpyEventDetailFragment : BaseFragment(R.layout.spy_res_fragment_s
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putSerializable(EXTRA_SPY_EVENT, event)
+    }
+
+    override fun requestShare() {
+        startActivity(event.share())
     }
 }

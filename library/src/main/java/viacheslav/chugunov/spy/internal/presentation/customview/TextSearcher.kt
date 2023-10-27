@@ -3,7 +3,7 @@ package viacheslav.chugunov.spy.internal.presentation.customview
 import android.text.Editable
 import android.text.TextWatcher
 
-class TextSearcher(private val textChangedListener: (String) -> Unit) {
+internal class TextSearcher(private val textChangedListener: (String) -> Unit) {
 
     private var state = State(
         searchEnabled = false,

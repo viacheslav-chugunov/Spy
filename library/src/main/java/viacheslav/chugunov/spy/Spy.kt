@@ -17,14 +17,14 @@ class Spy internal constructor(
         notifications = inject(applicationContext),
         storage = inject(applicationContext),
         config = config,
-        ModelReflectParser()
+        parser = inject(applicationContext)
     )
 
     constructor(applicationContext: Context):this(
         notifications = inject(applicationContext),
         storage = inject(applicationContext),
         config = SpyConfig.Builder().build(),
-        ModelReflectParser()
+        parser = inject(applicationContext),
     )
 
     init {

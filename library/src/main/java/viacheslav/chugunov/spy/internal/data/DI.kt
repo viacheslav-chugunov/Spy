@@ -13,6 +13,12 @@ internal inline fun <reified T> inject(applicationContext: Context): T = when (T
     EventStorage::class -> {
         EventStorage(applicationContext, "spy-database", Dispatchers.IO)
     }
+    ModelReflectParser::class -> {
+        ModelReflectParser()
+    }
+    ClipboardManager::class -> {
+        ClipboardManager(applicationContext)
+    }
     else -> {
         throw IllegalStateException("Injection for ${T::class.java.simpleName} was not provided")
     }
