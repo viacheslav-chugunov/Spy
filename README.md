@@ -24,8 +24,8 @@ Add the dependency:
 
 ```
 dependencies {
-    debugImplementation 'com.github.viacheslav-chugunov:Spy:1.0'
-    releaseImplementation 'com.github.viacheslav-chugunov:Spy:1.0-no-op'
+    debugImplementation 'com.github.viacheslav-chugunov:Spy:1.1'
+    releaseImplementation 'com.github.viacheslav-chugunov:Spy:1.1-no-op'
 }
 ```
 
