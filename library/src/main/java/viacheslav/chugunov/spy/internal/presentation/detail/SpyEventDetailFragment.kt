@@ -6,7 +6,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import viacheslav.chugunov.spy.R
+import viacheslav.chugunov.spy.internal.data.ClipboardManager
 import viacheslav.chugunov.spy.internal.data.SpyEvent
+import viacheslav.chugunov.spy.internal.data.inject
 import viacheslav.chugunov.spy.internal.presentation.BaseFragment
 import viacheslav.chugunov.spy.internal.presentation.customview.ToolbarView
 
